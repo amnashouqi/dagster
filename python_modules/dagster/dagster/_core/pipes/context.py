@@ -417,28 +417,40 @@ class PipesSession:
         self,
         *,
         implicit_materializations: bool = True,
+        metadata: Optional[Mapping[str, Any]] = None,
     ) -> Sequence[PipesExecutionResult]:
-        """:py:class:`PipesExecutionResult` objects reported from the external process.
+        """:py:class:`PipesExecutionResult` objects reported from the external process,
+            potentially modified by Pipes.
 
         Args:
             implicit_materializations (bool): Create MaterializeResults for expected assets
                 even was nothing is reported from the external process.
+            metadata (Optional[Mapping[str, MetadataValue]]): Metadata to attach to the results.
 
         Returns:
             Sequence[PipesExecutionResult]: Result reported by external process.
         """
         reported = self.message_handler.get_reported_results()
+
+        # inject metadata
+
+        if metadata:
+            reported = self._inject_metadata_to_materialization_results(reported, metadata)
+
         if not implicit_materializations:
             return reported
 
         reported_keys = set(
             result.asset_key for result in reported if isinstance(result, MaterializeResult)
         )
-        implicit = (
+        implicit = [
             MaterializeResult(asset_key=key)
             for key in self.context.selected_asset_keys
             if key not in reported_keys
-        )
+        ]
+
+        if metadata:
+            implicit = self._inject_metadata_to_materialization_results(implicit, metadata)
 
         return (
             *reported,
@@ -474,6 +486,19 @@ class PipesSession:
         Passes the `launched_payload` to the message reader's `on_launched` method.
         """
         self.message_handler.on_launched(launched_payload)
+
+    def _inject_metadata_to_materialization_results(
+        self, results: Sequence[PipesExecutionResult], metadata: Mapping[str, Any]
+    ) -> Sequence[PipesExecutionResult]:
+        results_with_metadata = []
+        for i, result in enumerate(results):
+            if isinstance(result, MaterializeResult):
+                # .with_metadata returns a new instance
+                results_with_metadata.append(result.with_metadata(metadata))
+            else:
+                # do not modify asset checks
+                results_with_metadata.append(result)
+        return results_with_metadata
 
 
 def build_external_execution_context_data(

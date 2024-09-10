@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import Callable, Iterator, List, Optional, Union
+from typing import Any, Callable, Iterator, List, Mapping, Optional, Union
 
 from dagster._annotations import public
 from dagster._core.definitions.resource_annotation import TreatAsResourceParam
@@ -105,6 +105,7 @@ class InProcessPipesClient(PipesClient, TreatAsResourceParam):
         context: Union[OpExecutionContext, AssetExecutionContext],
         fn: Callable[[PipesContext], None],
         extras: Optional[PipesExtras] = None,
+        metadata: Optional[Mapping[str, Any]] = None,  # metadata to attach to all materializations
     ) -> PipesClientCompletedInvocation:
         pipes_context_data = build_external_execution_context_data(context=context, extras=extras)
         pipes_context_loader = InProcessPipesContextLoader(pipes_context_data)
@@ -124,4 +125,4 @@ class InProcessPipesClient(PipesClient, TreatAsResourceParam):
             ) as session:
                 fn(pipes_context)
 
-        return PipesClientCompletedInvocation(session)
+        return PipesClientCompletedInvocation(session, metadata=metadata)

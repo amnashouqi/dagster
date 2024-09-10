@@ -36,7 +36,9 @@ def test_basic_materialization() -> None:
 
     @asset
     def an_asset(context: AssetExecutionContext, inprocess_client: InProcessPipesClient):
-        return inprocess_client.run(context=context, fn=_impl).get_results()
+        return inprocess_client.run(
+            context=context, fn=_impl, metadata={"extra_key": "value"}
+        ).get_results()
 
     result = execute_asset_through_def(
         an_asset, resources={"inprocess_client": InProcessPipesClient()}
@@ -46,6 +48,29 @@ def test_basic_materialization() -> None:
     mat_events = result.get_asset_materialization_events()
     assert len(mat_events) == 1
     assert mat_events[0].materialization.metadata["some_key"].value == "some_value"
+    assert mat_events[0].materialization.metadata["extra_key"].value == "value"
+
+
+def test_implicit_materialization() -> None:
+    called = {}
+
+    def _impl(context: PipesContext):
+        called["yes"] = True
+
+    @asset
+    def an_asset(context: AssetExecutionContext, inprocess_client: InProcessPipesClient):
+        return inprocess_client.run(
+            context=context, fn=_impl, metadata={"extra_key": "value"}
+        ).get_results()
+
+    result = execute_asset_through_def(
+        an_asset, resources={"inprocess_client": InProcessPipesClient()}
+    )
+    assert called["yes"]
+    assert result.success
+    mat_events = result.get_asset_materialization_events()
+    assert len(mat_events) == 1
+    assert mat_events[0].materialization.metadata["extra_key"].value == "value"
 
 
 def test_get_materialize_result() -> None:
@@ -59,7 +84,9 @@ def test_get_materialize_result() -> None:
     def an_asset(
         context: AssetExecutionContext, inprocess_client: InProcessPipesClient
     ) -> MaterializeResult:
-        return inprocess_client.run(context=context, fn=_impl).get_materialize_result()
+        return inprocess_client.run(
+            context=context, fn=_impl, metadata={"extra_metadata": "my_value"}
+        ).get_materialize_result()
 
     result = execute_asset_through_def(
         an_asset, resources={"inprocess_client": InProcessPipesClient()}
@@ -68,6 +95,7 @@ def test_get_materialize_result() -> None:
     mat_events = result.get_asset_materialization_events()
     assert len(mat_events) == 1
     assert mat_events[0].materialization.metadata["some_key"].value == "some_value"
+    assert mat_events[0].materialization.metadata["extra_metadata"].value == "my_value"
     assert called["yes"]
 
 

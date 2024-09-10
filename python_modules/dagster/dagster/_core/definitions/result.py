@@ -1,5 +1,7 @@
 from typing import Mapping, NamedTuple, Optional, Sequence
 
+from typing_extensions import Self
+
 import dagster._check as check
 from dagster._annotations import PublicAttr, experimental
 from dagster._core.definitions.asset_check_result import AssetCheckResult
@@ -56,6 +58,10 @@ class AssetResult(
                 return check_result
 
         check.failed(f"Could not find check result named {check_name}")
+
+    def with_metadata(self, metadata: RawMetadataMapping) -> Self:
+        """Return a new instance of the result with additional metadata."""
+        return self._replace(metadata={**(self.metadata or {}), **metadata})
 
 
 class MaterializeResult(AssetResult):

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Any, Iterator, List, Optional, Sequence, Union
+from typing import TYPE_CHECKING, Any, Iterator, List, Mapping, Optional, Sequence, Union
 
 from dagster_pipes import (
     DagsterPipesError,
@@ -52,11 +52,27 @@ class PipesClient(ABC):
 
 
 class PipesClientCompletedInvocation:
+    """A wrapper for the results of a pipes client invocation, typically returned from `PipesClient.run`.
+
+    Args:
+        session (PipesSession): The Pipes session that was used to run the external process.
+        metadata (Optional[Mapping[str, Any]]): Arbitrary metadata attached to the invocation,
+            such as an external job_id or other information available on the client side. Will be injected
+            into materialization results from the remote process.
+    """
+
     def __init__(
         self,
         session: PipesSession,
+        metadata: Optional[Mapping[str, Any]] = None,
     ):
         self._session = session
+        self._metadata = metadata or {}
+
+    @property
+    def metadata(self) -> Mapping[str, Any]:
+        """Arbitrary metadata attached to the invocation."""
+        return self._metadata
 
     def get_results(
         self,
@@ -73,7 +89,9 @@ class PipesClientCompletedInvocation:
 
         Returns: Sequence[PipesExecutionResult]
         """
-        return self._session.get_results(implicit_materializations=implicit_materializations)
+        return self._session.get_results(
+            implicit_materializations=implicit_materializations, metadata=self.metadata
+        )
 
     def get_materialize_result(
         self,
