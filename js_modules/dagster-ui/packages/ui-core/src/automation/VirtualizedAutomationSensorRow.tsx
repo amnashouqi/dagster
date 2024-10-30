@@ -1,12 +1,13 @@
-import {Box, Button, Checkbox, MiddleTruncate, Tag, Tooltip} from '@dagster-io/ui-components';
-import {forwardRef, useCallback, useMemo, useState} from 'react';
+import {Box, Checkbox, MiddleTruncate, Tag, Tooltip} from '@dagster-io/ui-components';
+import {forwardRef, useCallback, useMemo} from 'react';
 import {Link} from 'react-router-dom';
+import styled from 'styled-components';
 
 import {AutomationTargetList} from './AutomationTargetList';
 import {AutomationRowGrid} from './VirtualizedAutomationRow';
 import {useLazyQuery} from '../apollo-client';
 import {FIFTEEN_SECONDS, useQueryRefreshAtInterval} from '../app/QueryRefresh';
-import {InstigationStatus, SensorType} from '../graphql/types';
+import {InstigationStatus} from '../graphql/types';
 import {LastRunSummary} from '../instance/LastRunSummary';
 import {SENSOR_ASSET_SELECTIONS_QUERY} from '../sensors/SensorRoot';
 import {SensorSwitch} from '../sensors/SensorSwitch';
@@ -14,7 +15,7 @@ import {
   SensorAssetSelectionQuery,
   SensorAssetSelectionQueryVariables,
 } from '../sensors/types/SensorRoot.types';
-import {SensorDryRunDialog} from '../ticks/SensorDryRunDialog';
+import {EvaluateTickButtonSensor} from '../ticks/EvaluateTickButtonSensor';
 import {TickStatusTag} from '../ticks/TickStatusTag';
 import {RowCell} from '../ui/VirtualizedTable';
 import {SENSOR_TYPE_META, SINGLE_SENSOR_QUERY} from '../workspace/VirtualizedSensorRow';
@@ -37,8 +38,6 @@ interface Props {
 export const VirtualizedAutomationSensorRow = forwardRef(
   (props: Props, ref: React.ForwardedRef<HTMLDivElement>) => {
     const {index, name, repoAddress, checked, onToggleChecked} = props;
-
-    const [showTestTickDialog, setShowTestTickDialog] = useState(false);
 
     const [querySensor, sensorQueryResult] = useLazyQuery<
       SingleSensorQuery,
@@ -155,21 +154,15 @@ export const VirtualizedAutomationSensorRow = forwardRef(
               </Box>
               {/* Right aligned content */}
               {sensorData ? (
-                <Tooltip
-                  canShow={sensorData.sensorType !== SensorType.STANDARD}
-                  content="Testing not available for this sensor type"
-                  placement="top-end"
-                >
-                  <Button
-                    disabled={sensorData.sensorType !== SensorType.STANDARD}
-                    onClick={() => {
-                      setShowTestTickDialog(true);
-                    }}
-                    style={{height: '24px', marginTop: '-4px'}} // center button text with content in AutomationRowGrid
-                  >
-                    Manual tick
-                  </Button>
-                </Tooltip>
+                <EvaluateTickButtonSensorWrapper>
+                  <EvaluateTickButtonSensor
+                    cursor={cursor || ''}
+                    name={sensorData?.name || ''}
+                    repoAddress={repoAddress}
+                    jobName={sensorData?.targets?.[0]?.pipelineName || ''}
+                    sensorType={sensorData.sensorType}
+                  />
+                </EvaluateTickButtonSensorWrapper>
               ) : (
                 <div style={{width: 30}} />
               )}
@@ -228,17 +221,13 @@ export const VirtualizedAutomationSensorRow = forwardRef(
             )}
           </RowCell>
         </AutomationRowGrid>
-        <SensorDryRunDialog
-          isOpen={showTestTickDialog}
-          onClose={() => {
-            setShowTestTickDialog(false);
-          }}
-          currentCursor={cursor || ''}
-          name={sensorData?.name || ''}
-          repoAddress={repoAddress}
-          jobName={sensorData?.targets?.[0]?.pipelineName || ''}
-        />
       </div>
     );
   },
 );
+
+const EvaluateTickButtonSensorWrapper = styled.div`
+  button {
+    height: 24px;
+  }
+`;

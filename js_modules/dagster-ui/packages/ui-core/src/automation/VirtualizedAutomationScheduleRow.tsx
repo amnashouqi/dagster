@@ -1,6 +1,7 @@
-import {Box, Button, Caption, Checkbox, MiddleTruncate, Tooltip} from '@dagster-io/ui-components';
-import {forwardRef, useCallback, useMemo, useState} from 'react';
+import {Box, Caption, Checkbox, MiddleTruncate, Tooltip} from '@dagster-io/ui-components';
+import {forwardRef, useCallback, useMemo} from 'react';
 import {Link} from 'react-router-dom';
+import styled from 'styled-components';
 
 import {AutomationTargetList} from './AutomationTargetList';
 import {AutomationRowGrid} from './VirtualizedAutomationRow';
@@ -17,7 +18,7 @@ import {
   ScheduleAssetSelectionQuery,
   ScheduleAssetSelectionQueryVariables,
 } from '../schedules/types/ScheduleAssetSelectionsQuery.types';
-import {EvaluateScheduleDialog} from '../ticks/EvaluateScheduleDialog';
+import {EvaluateTickButtonSchedule} from '../ticks/EvaluateTickButtonSchedule';
 import {TickStatusTag} from '../ticks/TickStatusTag';
 import {RowCell} from '../ui/VirtualizedTable';
 import {SINGLE_SCHEDULE_QUERY} from '../workspace/VirtualizedScheduleRow';
@@ -40,8 +41,6 @@ interface ScheduleRowProps {
 export const VirtualizedAutomationScheduleRow = forwardRef(
   (props: ScheduleRowProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const {index, name, repoAddress, checked, onToggleChecked} = props;
-
-    const [showTestTickDialog, setShowTestTickDialog] = useState(false);
 
     const [querySchedule, queryResult] = useLazyQuery<
       SingleScheduleQuery,
@@ -155,14 +154,13 @@ export const VirtualizedAutomationScheduleRow = forwardRef(
                 </Link>
               </Box>
               {/* Right aligned content */}
-              <Button
-                onClick={() => {
-                  setShowTestTickDialog(true);
-                }}
-                style={{height: '24px', marginTop: '-4px'}} // center button text with content in AutomationRowGrid
-              >
-                Manual tick
-              </Button>
+              <EvaluateTickButtonScheduleWrapper>
+                <EvaluateTickButtonSchedule
+                  name={scheduleData?.name || ''}
+                  repoAddress={repoAddress}
+                  jobName={scheduleData?.pipelineName || ''}
+                />
+              </EvaluateTickButtonScheduleWrapper>
             </Box>
           </RowCell>
           <RowCell>
@@ -230,17 +228,13 @@ export const VirtualizedAutomationScheduleRow = forwardRef(
             )}
           </RowCell>
         </AutomationRowGrid>
-        <EvaluateScheduleDialog
-          key={showTestTickDialog ? '1' : '0'} // change key to reset dialog state
-          isOpen={showTestTickDialog}
-          onClose={() => {
-            setShowTestTickDialog(false);
-          }}
-          name={scheduleData?.name || ''}
-          repoAddress={repoAddress}
-          jobName={scheduleData?.pipelineName || ''}
-        />
       </div>
     );
   },
 );
+
+const EvaluateTickButtonScheduleWrapper = styled.div`
+  button {
+    height: 24px;
+  }
+`;
