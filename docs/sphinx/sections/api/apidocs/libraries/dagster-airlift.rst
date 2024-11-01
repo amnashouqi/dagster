@@ -16,12 +16,19 @@ AirflowInstance
 
 .. autoclass:: BasicAirflowAuthBackend
 
-.. currentmodule:: dagster_airlift.mwaa
-
 Assets & Definitions
 ^^^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: build_defs_from_airflow_instance
+
+Mapping Dagster assets to Airflow tasks/dags:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: assets_with_task_mappings
+
+.. autofunction:: assets_with_dag_mappings
+
+.. autofunction:: targeted_by_multiple_tasks
 
 Annotations for customizable components:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,6 +37,8 @@ Annotations for customizable components:
 
 .. autoclass:: DagsterEventTransformerFn
 
+.. autoclass:: TaskHandleDict
+
 Objects for retrieving information about the Airflow/Dagster mapping:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -37,12 +46,13 @@ Objects for retrieving information about the Airflow/Dagster mapping:
 
 .. autoclass:: AirflowDefinitionsData
 
-
-
+.. currentmodule:: dagster_airlift.mwaa
 
 MWAA (dagster_airlift.mwaa)
 ---------------------------
 
 .. autoclass:: MwaaSessionAuthBackend
+
+
 
 
