@@ -62,7 +62,7 @@ class DagsterDockerImage(
         images_path: Optional[str] = None,
         build_cm: Callable[..., Any] = do_nothing,
     ):
-        return super(DagsterDockerImage, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(image, "image"),
             check.opt_str_param(  # type: ignore
@@ -80,14 +80,14 @@ class DagsterDockerImage(
     @property
     def python_versions(self) -> List[str]:
         """List of Python versions supported for this image."""
-        with open(os.path.join(self.path, "versions.yaml"), "r", encoding="utf8") as f:
+        with open(os.path.join(self.path, "versions.yaml"), encoding="utf8") as f:
             versions = yaml.safe_load(f.read())
         return list(versions.keys())
 
     def _get_last_updated_for_python_version(self, python_version: str) -> str:
         """Retrieve the last_updated timestamp for a particular python_version of this image."""
         check.str_param(python_version, "python_version")
-        with open(os.path.join(self.path, "last_updated.yaml"), "r", encoding="utf8") as f:
+        with open(os.path.join(self.path, "last_updated.yaml"), encoding="utf8") as f:
             last_updated = yaml.safe_load(f.read())
             return last_updated[python_version]
 
@@ -100,7 +100,7 @@ class DagsterDockerImage(
 
         last_updated_path = os.path.join(self.path, "last_updated.yaml")
         if os.path.exists(last_updated_path):
-            with open(last_updated_path, "r", encoding="utf8") as f:
+            with open(last_updated_path, encoding="utf8") as f:
                 last_updated = yaml.safe_load(f.read())
 
         last_updated[python_version] = timestamp
@@ -151,7 +151,7 @@ class DagsterDockerImage(
         base image. If defined, set the BASE_IMAGE Docker arg from the full name of the parent
         image.
         """
-        with open(os.path.join(self.path, "versions.yaml"), "r", encoding="utf8") as f:
+        with open(os.path.join(self.path, "versions.yaml"), encoding="utf8") as f:
             versions = yaml.safe_load(f.read())
             image_info = versions.get(python_version, {})
 

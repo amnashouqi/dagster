@@ -107,7 +107,7 @@ class SqlPollingRunIdEventWatcherThread(threading.Thread):
     """
 
     def __init__(self, event_log_storage: EventLogStorage, run_id: str):
-        super(SqlPollingRunIdEventWatcherThread, self).__init__()
+        super().__init__()
         self._event_log_storage = check.inst_param(
             event_log_storage, "event_log_storage", EventLogStorage
         )

@@ -24,7 +24,7 @@ DAGSTER_HOME = MAKEFILE_DIR / ".dagster_home"
 @contextmanager
 def modify_constants(num_dags, num_tasks, num_assets) -> Generator[None, None, None]:
     # Read the original content
-    with open(CONSTANTS_FILE, "r") as f:
+    with open(CONSTANTS_FILE) as f:
         original_content = f.read()
 
     # Write new constants

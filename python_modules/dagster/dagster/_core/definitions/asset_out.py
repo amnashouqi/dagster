@@ -117,7 +117,7 @@ class AssetOut(
         if isinstance(key_prefix, str):
             key_prefix = [key_prefix]
 
-        return super(AssetOut, cls).__new__(
+        return super().__new__(
             cls,
             key=AssetKey.from_coercible(key) if key is not None else None,
             key_prefix=check.opt_list_param(key_prefix, "key_prefix", of_type=str),

@@ -104,7 +104,7 @@ class flag(nodes.Element):
 
 
 def visit_flag(self, node: flag):
-    flag_type, message = [node.attributes[k] for k in FLAG_ATTRS]
+    flag_type, message = (node.attributes[k] for k in FLAG_ATTRS)
     # We are currently not parsing the content of the message, so manually sub
     # all `references` with `<cite>` tags, which is what the HTML writer does
     # for parsed RST.

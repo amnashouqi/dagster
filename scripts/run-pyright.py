@@ -12,10 +12,10 @@ import sys
 from contextlib import contextmanager
 from functools import reduce
 from itertools import groupby
-from typing import Dict, Iterator, List, Mapping, Optional, Sequence, cast
+from typing import Dict, Final, Iterator, List, Mapping, Optional, Sequence, cast
 
 import tomli
-from typing_extensions import Final, Literal, NotRequired, TypedDict
+from typing_extensions import Literal, NotRequired, TypedDict
 
 parser = argparse.ArgumentParser(
     prog="run-pyright",
@@ -194,7 +194,7 @@ def get_env_path(env: str, rel_path: Optional[str] = None) -> str:
 
 
 def load_path_file(path: str) -> Sequence[str]:
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         return [line.strip() for line in f.readlines() if line.strip() and not line.startswith("#")]
 
 
@@ -361,7 +361,7 @@ def extract_package_name_from_editable_requirement(line: str) -> str:
 
 def get_all_editable_packages(env: str) -> Sequence[str]:
     requirements = get_env_path(env, "requirements.txt")
-    with open(requirements, "r") as f:
+    with open(requirements) as f:
         lines = [line.strip() for line in f.readlines()]
     return [
         extract_package_name_from_editable_requirement(line)
@@ -375,7 +375,7 @@ def get_all_editable_packages(env: str) -> Sequence[str]:
 def validate_editable_installs(env: str) -> None:
     venv_path = os.path.join(get_env_path(env), ".venv")
     for pth_file in glob.glob(f"{venv_path}/lib/python*/site-packages/__editable__*.pth"):
-        with open(pth_file, "r") as f:
+        with open(pth_file) as f:
             first_line = f.readlines()[0]
         # Not a legacy pth-- all legacy pth files contain an absolute path on the first line
         if first_line[0] != "/":
@@ -444,7 +444,7 @@ def run_pyright(
 
 @contextmanager
 def temp_pyright_config_file(env: str, unannotated: bool) -> Iterator[str]:
-    with open("pyproject.toml", "r", encoding="utf-8") as f:
+    with open("pyproject.toml", encoding="utf-8") as f:
         toml = tomli.loads(f.read())
     config = toml["tool"]["pyright"]
     config["venvPath"] = f"{PYRIGHT_ENV_ROOT}/{env}"
@@ -491,7 +491,7 @@ def print_output(result: RunResult, output_json: bool) -> None:
 
 def get_dagster_pyright_version() -> str:
     dagster_setup = os.path.abspath(os.path.join(__file__, "../../python_modules/dagster/setup.py"))
-    with open(dagster_setup, "r", encoding="utf-8") as f:
+    with open(dagster_setup, encoding="utf-8") as f:
         content = f.read()
     m = re.search('"pyright==([^"]+)"', content)
     assert m is not None, "Could not find pyright version in python_modules/dagster/setup.py"

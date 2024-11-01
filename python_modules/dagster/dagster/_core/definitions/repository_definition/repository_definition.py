@@ -65,7 +65,7 @@ class RepositoryLoadData(
             Mapping[str, CodeLocationReconstructionMetadataValue]
         ] = None,
     ):
-        return super(RepositoryLoadData, cls).__new__(
+        return super().__new__(
             cls,
             cacheable_asset_data=(
                 check.opt_mapping_param(

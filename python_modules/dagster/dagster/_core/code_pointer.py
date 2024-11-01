@@ -163,7 +163,7 @@ class FileCodePointer(
     CodePointer,
 ):
     def __new__(cls, python_file: str, fn_name: str, working_directory: Optional[str] = None):
-        return super(FileCodePointer, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(python_file, "python_file"),
             check.str_param(fn_name, "fn_name"),
@@ -208,7 +208,7 @@ class ModuleCodePointer(
     CodePointer,
 ):
     def __new__(cls, module: str, fn_name: str, working_directory: Optional[str] = None):
-        return super(ModuleCodePointer, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(module, "module"),
             check.str_param(fn_name, "fn_name"),
@@ -234,7 +234,7 @@ class PackageCodePointer(
     CodePointer,
 ):
     def __new__(cls, module: str, attribute: str, working_directory: Optional[str] = None):
-        return super(PackageCodePointer, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(module, "module"),
             check.str_param(attribute, "attribute"),
@@ -292,7 +292,7 @@ class CustomPointer(
                 f"Bad kwarg of length {len(reconstructable_kwarg)}, should be 2",
             )
 
-        return super(CustomPointer, cls).__new__(
+        return super().__new__(
             cls,
             reconstructor_pointer,
             reconstructable_args,

@@ -52,7 +52,7 @@ class DagsterK8sAPIRetryLimitExceeded(Exception):
         max_retries = check.int_param(kwargs.pop("max_retries"), "max_retries")
 
         check.invariant(original_exc_info[0] is not None)
-        super(DagsterK8sAPIRetryLimitExceeded, self).__init__(
+        super().__init__(
             f"Retry limit of {max_retries} exceeded: " + args[0],
             *args[1:],
             **kwargs,
@@ -72,7 +72,7 @@ class DagsterK8sUnrecoverableAPIError(Exception):
         original_exc_info = check.tuple_param(kwargs.pop("original_exc_info"), "original_exc_info")
 
         check.invariant(original_exc_info[0] is not None)
-        super(DagsterK8sUnrecoverableAPIError, self).__init__(args[0], *args[1:], **kwargs)
+        super().__init__(args[0], *args[1:], **kwargs)
 
         self.k8s_api_exception = check.opt_inst_param(
             k8s_api_exception, "k8s_api_exception", Exception
@@ -910,7 +910,7 @@ class DagsterKubernetesClient:
     ) -> str:
         if pod is None:
             pods = self.core_api.list_namespaced_pod(
-                namespace=namespace, field_selector="metadata.name=%s" % pod_name
+                namespace=namespace, field_selector=f"metadata.name={pod_name}"
             ).items
             pod = pods[0] if pods else None
 

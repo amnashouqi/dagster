@@ -7,7 +7,19 @@ import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Mapping, NamedTuple, Optional, Sequence, Union, cast
+from typing import (
+    Any,
+    Dict,
+    Final,
+    Iterator,
+    List,
+    Mapping,
+    NamedTuple,
+    Optional,
+    Sequence,
+    Union,
+    cast,
+)
 
 import orjson
 from dagster import (
@@ -22,7 +34,7 @@ from dagster import (
 from dagster._annotations import public
 from dagster._core.errors import DagsterExecutionInterruptedError
 from dbt.adapters.base.impl import BaseAdapter, BaseColumn, BaseRelation
-from typing_extensions import Final, Literal
+from typing_extensions import Literal
 
 from dagster_dbt.core.dbt_cli_event import DbtCliEventMessage
 from dagster_dbt.core.dbt_event_iterator import DbtDagsterEventType, DbtEventIterator

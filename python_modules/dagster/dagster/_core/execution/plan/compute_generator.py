@@ -140,8 +140,7 @@ def _coerce_op_compute_fn_to_iterator(
     result = invoke_compute_fn(
         fn, context, kwargs, context_arg_provided, config_arg_class, resource_arg_mapping
     )
-    for event in validate_and_coerce_op_result_to_iterator(result, context, output_defs):
-        yield event
+    yield from validate_and_coerce_op_result_to_iterator(result, context, output_defs)
 
 
 def _zip_and_iterate_op_result(
@@ -269,8 +268,7 @@ def validate_and_coerce_op_result_to_iterator(
 ) -> Iterator[Any]:
     if inspect.isgenerator(result):
         # this happens when a user explicitly returns a generator in the op
-        for event in result:
-            yield event
+        yield from result
     elif isinstance(result, (AssetMaterialization, ExpectationResult)):
         raise DagsterInvariantViolationError(
             f"Error in {context.describe_op()}: If you are "

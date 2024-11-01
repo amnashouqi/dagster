@@ -27,7 +27,7 @@ class EventLogConsumerDaemon(IntervalDaemon):
         interval_seconds: int = _INTERVAL_SECONDS,
         event_log_fetch_limit: int = _EVENT_LOG_FETCH_LIMIT,
     ):
-        super(EventLogConsumerDaemon, self).__init__(interval_seconds=interval_seconds)
+        super().__init__(interval_seconds=interval_seconds)
         self._event_log_fetch_limit = event_log_fetch_limit
 
     @classmethod

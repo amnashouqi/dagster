@@ -456,7 +456,6 @@ def test_observable_source_asset_io_manager_def() -> None:
         def load_input(self, context: "InputContext") -> object:
             with open(
                 os.path.join(self.base_path, "/".join(context.asset_key.path)),
-                mode="r",
                 encoding="utf-8",
             ) as ff:
                 return str(ff.read())

@@ -1484,7 +1484,7 @@ class AssetsDefinition(ResourceAddable, IHasInternalInit):
         if len(self.keys) == 1:
             return f"AssetsDefinition with key {self.key.to_string()}"
         else:
-            asset_keys = ", ".join(sorted(([asset_key.to_string() for asset_key in self.keys])))
+            asset_keys = ", ".join(sorted([asset_key.to_string() for asset_key in self.keys]))
             return f"AssetsDefinition with keys {asset_keys}"
 
     @cached_property

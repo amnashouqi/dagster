@@ -547,11 +547,9 @@ def _type_check_and_store_output(
         step_context.step_output_capture[step_output_handle] = output.value
         step_context.step_output_metadata_capture[step_output_handle] = output.metadata
 
-    for output_event in _type_check_output(step_context, step_output_handle, output):
-        yield output_event
+    yield from _type_check_output(step_context, step_output_handle, output)
 
-    for evt in _store_output(step_context, step_output_handle, output):
-        yield evt
+    yield from _store_output(step_context, step_output_handle, output)
 
 
 def _get_output_asset_events(
@@ -746,8 +744,7 @@ def _store_output(
 
             def _gen_fn():
                 gen_output = output_manager.handle_output(output_context, output.value)
-                for event in output_context.consume_events():
-                    yield event
+                yield from output_context.consume_events()
                 if gen_output:
                     yield gen_output
 

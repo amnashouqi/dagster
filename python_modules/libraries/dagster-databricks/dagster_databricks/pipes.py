@@ -381,7 +381,7 @@ class PipesDbfsMessageReader(PipesBlobStoreMessageReader):
         # An error here is an expected result, since an IOError will be thrown if the next message
         # chunk doesn't yet exist. Swallowing the error here is equivalent to doing a no-op on a
         # status check showing a non-existent file.
-        except IOError:
+        except OSError:
             return None
 
     def no_messages_debug_text(self) -> str:
@@ -443,7 +443,7 @@ class PipesDbfsLogReader(PipesChunkedLogReader):
                 chunk = content[self.log_position :]
                 self.log_position = len(content)
                 return chunk
-            except IOError:
+            except OSError:
                 return None
 
     @property
@@ -459,7 +459,7 @@ class PipesDbfsLogReader(PipesChunkedLogReader):
                 return None
             try:
                 child_dirs = list(self.dbfs_client.list(cluster_driver_log_root))
-            except IOError:
+            except OSError:
                 child_dirs = []  # log root doesn't exist yet
             match = next(
                 (

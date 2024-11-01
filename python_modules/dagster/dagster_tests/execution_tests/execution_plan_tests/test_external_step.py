@@ -91,7 +91,7 @@ class RequestRetryLocalExternalStepLauncher(LocalExternalStepLauncher):
         if step_context.previous_attempt_count == 0:
             raise RetryRequested()
         else:
-            return super(RequestRetryLocalExternalStepLauncher, self).launch_step(step_context)
+            return super().launch_step(step_context)
 
 
 @resource(config_schema=local_external_step_launcher.config_schema)

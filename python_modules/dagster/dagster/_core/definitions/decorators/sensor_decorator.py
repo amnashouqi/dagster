@@ -205,8 +205,7 @@ def asset_sensor(
             result = fn(*args, **kwargs)
 
             if inspect.isgenerator(result) or isinstance(result, list):
-                for item in result:
-                    yield item
+                yield from result
             elif isinstance(result, (RunRequest, SkipReason)):
                 yield result
 

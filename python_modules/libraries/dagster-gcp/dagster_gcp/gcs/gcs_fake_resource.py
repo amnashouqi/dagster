@@ -70,8 +70,7 @@ class FakeGCSClient:
 
     def list_buckets(self, *args, **kwargs):
         self.mock_extras.list_buckets(*args, **kwargs)
-        for bucket in self.buckets.values():
-            yield bucket
+        yield from self.buckets.values()
 
     def list_blobs(
         self,

@@ -91,7 +91,7 @@ class DynamicPartitionsRequestResult(
         if not xor(added_partitions is None, deleted_partitions is None):
             check.failed("Exactly one of added_partitions and deleted_partitions must be provided")
 
-        return super(DynamicPartitionsRequestResult, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(partitions_def_name, "partitions_def_name"),
             added_partitions,
@@ -133,7 +133,7 @@ class SensorInstigatorData(
         sensor_type: Optional[SensorType] = None,
         last_tick_success_timestamp: Optional[float] = None,
     ):
-        return super(SensorInstigatorData, cls).__new__(
+        return super().__new__(
             cls,
             check.opt_float_param(last_tick_timestamp, "last_tick_timestamp"),
             check.opt_str_param(last_run_key, "last_run_key"),
@@ -181,7 +181,7 @@ class ScheduleInstigatorData(
         if not isinstance(cron_schedule, str):
             cron_schedule = check.sequence_param(cron_schedule, "cron_schedule", of_type=str)
 
-        return super(ScheduleInstigatorData, cls).__new__(
+        return super().__new__(
             cls,
             cron_schedule,
             # Time in UTC at which the user started running the schedule (distinct from
@@ -236,7 +236,7 @@ class InstigatorState(
         status: InstigatorStatus,
         instigator_data: Optional[InstigatorData] = None,
     ):
-        return super(InstigatorState, cls).__new__(
+        return super().__new__(
             cls,
             check.inst_param(origin, "origin", RemoteInstigatorOrigin),
             check.inst_param(instigator_type, "instigator_type", InstigatorType),
@@ -323,7 +323,7 @@ class TickStatus(Enum):
 )
 class InstigatorTick(NamedTuple("_InstigatorTick", [("tick_id", int), ("tick_data", "TickData")])):
     def __new__(cls, tick_id: int, tick_data: "TickData"):
-        return super(InstigatorTick, cls).__new__(
+        return super().__new__(
             cls,
             check.int_param(tick_id, "tick_id"),
             check.inst_param(tick_data, "tick_data", TickData),
@@ -635,7 +635,7 @@ class TickData(
     ):
         _validate_tick_args(instigator_type, status, run_ids, error, skip_reason)
         check.opt_list_param(log_key, "log_key", of_type=str)
-        return super(TickData, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(instigator_origin_id, "instigator_origin_id"),
             check.str_param(instigator_name, "instigator_name"),

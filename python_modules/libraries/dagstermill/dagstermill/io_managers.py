@@ -33,7 +33,7 @@ class OutputNotebookIOManager(IOManager):
 
 class LocalOutputNotebookIOManager(OutputNotebookIOManager):
     def __init__(self, base_dir: str, asset_key_prefix: Optional[Sequence[str]] = None):
-        super(LocalOutputNotebookIOManager, self).__init__(asset_key_prefix=asset_key_prefix)
+        super().__init__(asset_key_prefix=asset_key_prefix)
         self.base_dir = base_dir
         self.write_mode = "wb"
         self.read_mode = "rb"

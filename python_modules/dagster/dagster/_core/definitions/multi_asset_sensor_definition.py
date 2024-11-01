@@ -105,7 +105,7 @@ class MultiAssetSensorAssetCursorComponent(
         latest_consumed_event_id,
         trailing_unconsumed_partitioned_event_ids,
     ):
-        return super(MultiAssetSensorAssetCursorComponent, cls).__new__(
+        return super().__new__(
             cls,
             latest_consumed_event_partition=check.opt_str_param(
                 latest_consumed_event_partition, "latest_consumed_event_partition"
@@ -290,7 +290,7 @@ class MultiAssetSensorEvaluationContext(SensorEvaluationContext):
             "last_completion_time",
         )
 
-        super(MultiAssetSensorEvaluationContext, self).__init__(
+        super().__init__(
             instance_ref=instance_ref,
             last_tick_completion_time=normalized_last_tick_completion_time,
             last_run_key=last_run_key,
@@ -625,9 +625,9 @@ class MultiAssetSensorEvaluationContext(SensorEvaluationContext):
                 "All assets must be partitioned and share the same partitions definition"
             )
 
-        asset_and_materialization_tuple_by_partition: Dict[
-            str, Dict[AssetKey, "EventLogRecord"]
-        ] = defaultdict(dict)
+        asset_and_materialization_tuple_by_partition: Dict[str, Dict[AssetKey, EventLogRecord]] = (
+            defaultdict(dict)
+        )
 
         for asset_key in self._monitored_asset_keys:
             materialization_by_partition = self.latest_materialization_records_by_partition(
@@ -1248,7 +1248,7 @@ class MultiAssetSensorDefinition(SensorDefinition):
 
         self._raw_asset_materialization_fn = asset_materialization_fn
 
-        super(MultiAssetSensorDefinition, self).__init__(
+        super().__init__(
             name=check_valid_name(name),
             job_name=job_name,
             evaluation_fn=_wrap_asset_fn(

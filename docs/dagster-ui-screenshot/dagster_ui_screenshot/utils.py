@@ -101,7 +101,7 @@ def _is_single_file_spec_db(spec_db_path: str) -> bool:
 
 
 def _load_yaml(path: str):
-    with open(path, "r", encoding="utf8") as f:
+    with open(path, encoding="utf8") as f:
         return yaml.safe_load(f)
 
 

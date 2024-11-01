@@ -619,8 +619,7 @@ def _load_input_with_input_manager(
     ):
         value = input_manager.load_input(context)
     # close user code boundary before returning value
-    for event in context.consume_events():
-        yield event
+    yield from context.consume_events()
 
     yield value
 

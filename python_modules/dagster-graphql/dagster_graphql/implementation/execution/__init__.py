@@ -321,7 +321,7 @@ async def gen_captured_log_data(
     subscription = compute_log_manager.subscribe(log_key, cursor)
 
     loop = asyncio.get_event_loop()
-    queue: asyncio.Queue["CapturedLogData"] = asyncio.Queue()
+    queue: asyncio.Queue[CapturedLogData] = asyncio.Queue()
 
     def _enqueue(new_event):
         loop.call_soon_threadsafe(queue.put_nowait, new_event)

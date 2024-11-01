@@ -26,6 +26,7 @@ from typing import (
     Any,
     Callable,
     Dict,
+    Final,
     FrozenSet,
     Generic,
     Iterable,
@@ -44,7 +45,7 @@ from typing import (
 )
 
 from pydantic import BaseModel
-from typing_extensions import Final, Self, TypeAlias, TypeVar
+from typing_extensions import Self, TypeAlias, TypeVar
 
 import dagster._check as check
 import dagster._seven as seven

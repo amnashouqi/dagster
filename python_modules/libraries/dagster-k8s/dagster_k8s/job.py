@@ -159,7 +159,7 @@ class UserDefinedDagsterK8sConfig(
         if service_metadata:
             service_metadata = k8s_snake_case_dict(kubernetes.client.V1ObjectMeta, service_metadata)
 
-        return super(UserDefinedDagsterK8sConfig, cls).__new__(
+        return super().__new__(
             cls,
             container_config=container_config,
             pod_template_spec_metadata=pod_template_spec_metadata,

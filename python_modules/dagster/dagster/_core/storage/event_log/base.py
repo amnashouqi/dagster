@@ -84,7 +84,7 @@ class AssetEntry(
     ):
         from dagster._core.storage.partition_status_cache import AssetStatusCacheValue
 
-        return super(AssetEntry, cls).__new__(
+        return super().__new__(
             cls,
             asset_key=check.inst_param(asset_key, "asset_key", AssetKey),
             last_materialization_record=check.opt_inst_param(

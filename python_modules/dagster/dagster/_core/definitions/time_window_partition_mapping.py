@@ -102,7 +102,7 @@ class TimeWindowPartitionMapping(
         end_offset: int = 0,
         allow_nonexistent_upstream_partitions: bool = False,
     ):
-        return super(TimeWindowPartitionMapping, cls).__new__(
+        return super().__new__(
             cls,
             start_offset=check.int_param(start_offset, "start_offset"),
             end_offset=check.int_param(end_offset, "end_offset"),

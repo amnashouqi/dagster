@@ -376,7 +376,7 @@ class AssetGraphSubset(NamedTuple):
         non_partitioned_asset_keys = {
             asset_key
             for key in serialized_dict["non_partitioned_asset_keys"]
-            if asset_graph.has((asset_key := AssetKey.from_user_string(key)))
+            if asset_graph.has(asset_key := AssetKey.from_user_string(key))
         }
 
         return AssetGraphSubset(

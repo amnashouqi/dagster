@@ -21,7 +21,7 @@ class ModelFieldCompat:
     """
 
     def __init__(self, field) -> None:
-        self.field: "ModelField" = field
+        self.field: ModelField = field
 
     @property
     def annotation(self) -> Type:

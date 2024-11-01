@@ -34,7 +34,7 @@ class GrpcServerEndpoint(
     )
 ):
     def __new__(cls, server_id: str, host: str, port: Optional[int], socket: Optional[str]):
-        return super(GrpcServerEndpoint, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(server_id, "server_id"),
             check.str_param(host, "host"),

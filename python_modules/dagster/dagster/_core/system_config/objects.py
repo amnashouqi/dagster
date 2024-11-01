@@ -41,7 +41,7 @@ class OpConfig(
     )
 ):
     def __new__(cls, config, inputs: Mapping[str, object], outputs: "OutputsConfig"):
-        return super(OpConfig, cls).__new__(
+        return super().__new__(
             cls,
             config,
             check.opt_mapping_param(inputs, "inputs", key_type=str),
@@ -122,7 +122,7 @@ class ResolvedRunConfig(
         if execution is None:
             execution = ExecutionConfig(None, None)
 
-        return super(ResolvedRunConfig, cls).__new__(
+        return super().__new__(
             cls,
             ops=check.opt_mapping_param(ops, "ops", key_type=str, value_type=OpConfig),
             execution=execution,
@@ -373,7 +373,7 @@ class ExecutionConfig(
         execution_engine_name: Optional[str],
         execution_engine_config: Optional[Mapping[str, object]],
     ):
-        return super(ExecutionConfig, cls).__new__(
+        return super().__new__(
             cls,
             execution_engine_name=check.opt_str_param(
                 execution_engine_name,

@@ -344,7 +344,7 @@ class NodeHandle(NamedTuple("_NodeHandle", [("name", str), ("parent", Optional["
     """A structured object to identify nodes in the potentially recursive graph structure."""
 
     def __new__(cls, name: str, parent: Optional["NodeHandle"]):
-        return super(NodeHandle, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(name, "name"),
             check.opt_inst_param(parent, "parent", NodeHandle),
@@ -459,7 +459,7 @@ class NodeHandle(NamedTuple("_NodeHandle", [("name", str), ("parent", Optional["
     def from_path(path: Sequence[str]) -> "NodeHandle":
         check.sequence_param(path, "path", of_type=str)
 
-        cur: Optional["NodeHandle"] = None
+        cur: Optional[NodeHandle] = None
         _path = list(path)
         while len(_path) > 0:
             cur = NodeHandle(name=_path.pop(0), parent=cur)
@@ -535,7 +535,7 @@ class NodeOutputHandle(Generic[T_OptionalNodeHandle]):
 
 class NodeInput(NamedTuple("_NodeInput", [("node", Node), ("input_def", InputDefinition)])):
     def __new__(cls, node: Node, input_def: InputDefinition):
-        return super(NodeInput, cls).__new__(
+        return super().__new__(
             cls,
             check.inst_param(node, "node", Node),
             check.inst_param(input_def, "input_def", InputDefinition),
@@ -575,7 +575,7 @@ class NodeInput(NamedTuple("_NodeInput", [("node", Node), ("input_def", InputDef
 
 class NodeOutput(NamedTuple("_NodeOutput", [("node", Node), ("output_def", OutputDefinition)])):
     def __new__(cls, node: Node, output_def: OutputDefinition):
-        return super(NodeOutput, cls).__new__(
+        return super().__new__(
             cls,
             check.inst_param(node, "node", Node),
             check.inst_param(output_def, "output_def", OutputDefinition),
@@ -682,7 +682,7 @@ class DependencyDefinition(
         output: str = DEFAULT_OUTPUT,
         description: Optional[str] = None,
     ):
-        return super(DependencyDefinition, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(node, "node"),
             check.str_param(output, "output"),
@@ -775,7 +775,7 @@ class MultiDependencyDefinition(
             else:
                 check.failed(f"Unexpected dependencies entry {dep}")
 
-        return super(MultiDependencyDefinition, cls).__new__(cls, deps)
+        return super().__new__(cls, deps)
 
     @public
     def get_node_dependencies(self) -> Sequence[DependencyDefinition]:

@@ -92,7 +92,7 @@ def test_forward_compat_serdes_new_field_with_default() -> None:
         @_whitelist_for_serdes(whitelist_map=test_map)
         class Quux(NamedTuple("_Quux", [("foo", str), ("bar", str)])):
             def __new__(cls, foo, bar):
-                return super(Quux, cls).__new__(cls, foo, bar)
+                return super().__new__(cls, foo, bar)
 
         assert "Quux" in test_map.object_serializers
         serializer = test_map.object_serializers["Quux"]
@@ -107,7 +107,7 @@ def test_forward_compat_serdes_new_field_with_default() -> None:
     @_whitelist_for_serdes(whitelist_map=test_map)
     class Quux(NamedTuple("_Quux", [("foo", str), ("bar", str), ("baz", Optional[str])])):
         def __new__(cls, foo, bar, baz=None):
-            return super(Quux, cls).__new__(cls, foo, bar, baz=baz)
+            return super().__new__(cls, foo, bar, baz=baz)
 
     assert "Quux" in test_map.object_serializers
     serializer_v2 = test_map.object_serializers["Quux"]
@@ -193,7 +193,7 @@ def test_backward_compat_serdes():
         @_whitelist_for_serdes(whitelist_map=test_map)
         class Quux(namedtuple("_Quux", "foo bar baz")):
             def __new__(cls, foo, bar, baz):
-                return super(Quux, cls).__new__(cls, foo, bar, baz)
+                return super().__new__(cls, foo, bar, baz)
 
         return Quux("zip", "zow", "whoopie")
 
@@ -205,7 +205,7 @@ def test_backward_compat_serdes():
     @_whitelist_for_serdes(whitelist_map=test_map)
     class Quux(namedtuple("_Quux", "foo bar")):
         def __new__(cls, foo, bar):
-            return super(Quux, cls).__new__(cls, foo, bar)
+            return super().__new__(cls, foo, bar)
 
     deserialized = deserialize_value(serialized, as_type=Quux, whitelist_map=test_map)
 
@@ -294,7 +294,7 @@ def test_wrong_first_arg():
         @serdes_test_class
         class NotCls(namedtuple("NotCls", "field_one field_two")):
             def __new__(not_cls, field_two, field_one):  # type: ignore
-                return super(NotCls, not_cls).__new__(field_one, field_two)
+                return super().__new__(field_one, field_two)
 
     assert str(exc_info.value) == 'For NotCls: First parameter must be _cls or cls. Got "not_cls".'
 
@@ -305,7 +305,7 @@ def test_incorrect_order():
         @serdes_test_class
         class WrongOrder(namedtuple("WrongOrder", "field_one field_two")):
             def __new__(cls, field_two, field_one):
-                return super(WrongOrder, cls).__new__(field_one, field_two)
+                return super().__new__(field_one, field_two)
 
     assert (
         str(exc_info.value) == "For WrongOrder: "
@@ -321,7 +321,7 @@ def test_missing_one_parameter():
         @serdes_test_class
         class MissingFieldInNew(namedtuple("MissingFieldInNew", "field_one field_two field_three")):
             def __new__(cls, field_one, field_two):
-                return super(MissingFieldInNew, cls).__new__(field_one, field_two, None)
+                return super().__new__(field_one, field_two, None)
 
     assert (
         str(exc_info.value) == "For MissingFieldInNew: "
@@ -341,7 +341,7 @@ def test_missing_many_parameters():
             namedtuple("MissingFieldsInNew", "field_one field_two field_three, field_four")
         ):
             def __new__(cls, field_one, field_two):
-                return super(MissingFieldsInNew, cls).__new__(field_one, field_two, None, None)
+                return super().__new__(field_one, field_two, None, None)
 
     assert (
         str(exc_info.value) == "For MissingFieldsInNew: "
@@ -369,7 +369,7 @@ def test_extra_parameters_must_have_defaults():
                 field_one,
                 field_two,
             ):
-                return super(OldFieldsWithoutDefaults, cls).__new__(field_three, field_four)
+                return super().__new__(field_three, field_four)
 
     assert (
         str(exc_info.value) == "For OldFieldsWithoutDefaults: "
@@ -398,7 +398,7 @@ def test_extra_parameters_have_working_defaults():
             another_falsey_field="",
             value_field="klsjkfjd",
         ):
-            return super(OldFieldsWithDefaults, cls).__new__(field_three, field_four)
+            return super().__new__(field_three, field_four)
 
 
 def test_set():
@@ -409,7 +409,7 @@ def test_set():
         def __new__(cls, reg_set, frozen_set):
             check.set_param(reg_set, "reg_set")
             check.inst_param(frozen_set, "frozen_set", frozenset)
-            return super(HasSets, cls).__new__(cls, reg_set, frozen_set)
+            return super().__new__(cls, reg_set, frozen_set)
 
     foo = HasSets({1, 2, 3, "3"}, frozenset([4, 5, 6, "6"]))
 
@@ -609,7 +609,7 @@ def test_named_tuple_skip_when_empty_fields() -> None:
         @_whitelist_for_serdes(whitelist_map=test_map)
         class SameSnapshotTuple(namedtuple("_Tuple", "foo")):
             def __new__(cls, foo):
-                return super(SameSnapshotTuple, cls).__new__(cls, foo)
+                return super().__new__(cls, foo)
 
         return SameSnapshotTuple(foo="A")
 
@@ -624,7 +624,7 @@ def test_named_tuple_skip_when_empty_fields() -> None:
         @_whitelist_for_serdes(whitelist_map=test_map)
         class SameSnapshotTuple(namedtuple("_SameSnapshotTuple", "foo bar")):
             def __new__(cls, foo, bar=None):
-                return super(SameSnapshotTuple, cls).__new__(cls, foo, bar)
+                return super().__new__(cls, foo, bar)
 
         return SameSnapshotTuple(foo="A")
 
@@ -643,7 +643,7 @@ def test_named_tuple_skip_when_empty_fields() -> None:
     @_whitelist_for_serdes(whitelist_map=test_map, skip_when_empty_fields={"bar"})
     class SameSnapshotTuple(namedtuple("_Tuple", "foo bar")):
         def __new__(cls, foo, bar=None):
-            return super(SameSnapshotTuple, cls).__new__(cls, foo, bar)
+            return super().__new__(cls, foo, bar)
 
     for bar_val in [None, [], {}, set()]:
         new_tuple = SameSnapshotTuple(foo="A", bar=bar_val)
@@ -670,7 +670,7 @@ def test_named_tuple_skip_when_none_fields() -> None:
         @_whitelist_for_serdes(whitelist_map=test_map)
         class SameSnapshotTuple(namedtuple("_Tuple", "foo")):
             def __new__(cls, foo):
-                return super(SameSnapshotTuple, cls).__new__(cls, foo)
+                return super().__new__(cls, foo)
 
         return SameSnapshotTuple(foo="A")
 
@@ -685,7 +685,7 @@ def test_named_tuple_skip_when_none_fields() -> None:
         @_whitelist_for_serdes(whitelist_map=test_map)
         class SameSnapshotTuple(namedtuple("_SameSnapshotTuple", "foo bar")):
             def __new__(cls, foo, bar=None):
-                return super(SameSnapshotTuple, cls).__new__(cls, foo, bar)
+                return super().__new__(cls, foo, bar)
 
         return SameSnapshotTuple(foo="A")
 
@@ -704,7 +704,7 @@ def test_named_tuple_skip_when_none_fields() -> None:
     @_whitelist_for_serdes(whitelist_map=test_map, skip_when_none_fields={"bar"})
     class SameSnapshotTuple(namedtuple("_Tuple", "foo bar")):
         def __new__(cls, foo, bar=None):
-            return super(SameSnapshotTuple, cls).__new__(cls, foo, bar)
+            return super().__new__(cls, foo, bar)
 
     for bar_val in [None, [], {}, set()]:
         new_tuple = SameSnapshotTuple(foo="A", bar=bar_val)
@@ -890,9 +890,7 @@ def test_serializable_non_scalar_key_mapping_in_named_tuple():
     @_whitelist_for_serdes(test_env)
     class Foo(NamedTuple("_Foo", [("keyed_by_non_scalar", Mapping[Bar, int])])):
         def __new__(cls, keyed_by_non_scalar):
-            return super(Foo, cls).__new__(
-                cls, SerializableNonScalarKeyMapping(keyed_by_non_scalar)
-            )
+            return super().__new__(cls, SerializableNonScalarKeyMapping(keyed_by_non_scalar))
 
     named_tuple = Foo(keyed_by_non_scalar={Bar("red"): 1})
     assert (

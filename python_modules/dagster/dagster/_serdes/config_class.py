@@ -60,7 +60,7 @@ class ConfigurableClassData(
     """
 
     def __new__(cls, module_name: str, class_name: str, config_yaml: str):
-        return super(ConfigurableClassData, cls).__new__(
+        return super().__new__(
             cls,
             convert_dagster_submodule_name(check.str_param(module_name, "module_name"), "private"),
             check.str_param(class_name, "class_name"),

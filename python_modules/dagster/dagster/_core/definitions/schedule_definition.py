@@ -457,7 +457,7 @@ class ScheduleExecutionData(
         check.invariant(
             not (run_requests and skip_message), "Found both skip data and run request data"
         )
-        return super(ScheduleExecutionData, cls).__new__(
+        return super().__new__(
             cls,
             run_requests=run_requests,
             skip_message=skip_message,
@@ -942,7 +942,7 @@ class ScheduleDefinition(IHasInternalInit):
         from dagster._core.definitions.partition import CachingDynamicPartitionsLoader
 
         check.inst_param(context, "context", ScheduleEvaluationContext)
-        execution_fn: Callable[..., "ScheduleEvaluationFunctionReturn"]
+        execution_fn: Callable[..., ScheduleEvaluationFunctionReturn]
         if isinstance(self._execution_fn, DecoratedScheduleFunction):
             execution_fn = self._execution_fn.wrapped_fn
         else:

@@ -3,11 +3,10 @@ import os
 import pickle
 import platform
 import shutil
-import sys
 import time
 import uuid
 from contextlib import contextmanager
-from typing import List, Optional
+from typing import List, Optional, TypedDict
 
 from dagster import (
     Field,
@@ -38,11 +37,6 @@ from dagster_wandb.utils.pickling import (
     unpickle_artifact_content,
 )
 from dagster_wandb.version import __version__
-
-if sys.version_info >= (3, 8):
-    from typing import TypedDict
-else:
-    from typing_extensions import TypedDict
 
 UNIT_TEST_RUN_ID = "0ab2e48b-6d63-4ff5-b160-662cc60145f4"
 

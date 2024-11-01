@@ -63,38 +63,35 @@ TriggerStep = TypedDict(
 
 WaitStep: TypeAlias = Literal["wait"]
 
-InputSelectOption = TypedDict("InputSelectOption", {"label": str, "value": str})
-InputSelectField = TypedDict(
-    "InputSelectField",
-    {
-        "select": str,
-        "key": str,
-        "options": List[InputSelectOption],
-        "hint": Optional[str],
-        "default": Optional[str],
-        "required": Optional[bool],
-        "multiple": Optional[bool],
-    },
-)
-InputTextField = TypedDict(
-    "InputTextField",
-    {
-        "text": str,
-        "key": str,
-        "hint": Optional[str],
-        "default": Optional[str],
-        "required": Optional[bool],
-    },
-)
 
-BlockStep = TypedDict(
-    "BlockStep",
-    {
-        "block": str,
-        "prompt": Optional[str],
-        "fields": List[Union[InputSelectField, InputTextField]],
-    },
-)
+class InputSelectOption(TypedDict):
+    label: str
+    value: str
+
+
+class InputSelectField(TypedDict):
+    select: str
+    key: str
+    options: List[InputSelectOption]
+    hint: Optional[str]
+    default: Optional[str]
+    required: Optional[bool]
+    multiple: Optional[bool]
+
+
+class InputTextField(TypedDict):
+    text: str
+    key: str
+    hint: Optional[str]
+    default: Optional[str]
+    required: Optional[bool]
+
+
+class BlockStep(TypedDict):
+    block: str
+    prompt: Optional[str]
+    fields: List[Union[InputSelectField, InputTextField]]
+
 
 BuildkiteStep: TypeAlias = Union[CommandStep, GroupStep, TriggerStep, WaitStep, BlockStep]
 BuildkiteLeafStep = Union[CommandStep, TriggerStep, WaitStep]

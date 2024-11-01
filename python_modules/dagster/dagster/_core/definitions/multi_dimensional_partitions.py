@@ -53,7 +53,7 @@ class PartitionDimensionKey(
     """Representation of a single dimension of a multi-dimensional partition key."""
 
     def __new__(cls, dimension_name: str, partition_key: str):
-        return super(PartitionDimensionKey, cls).__new__(
+        return super().__new__(
             cls,
             dimension_name=check.str_param(dimension_name, "dimension_name"),
             partition_key=check.str_param(partition_key, "partition_key"),
@@ -81,7 +81,7 @@ class MultiPartitionKey(str):
             for dimension in sorted(list(keys_by_dimension.keys()))
         ]
 
-        str_key = super(MultiPartitionKey, cls).__new__(
+        str_key = super().__new__(
             cls,
             MULTIPARTITION_KEY_DELIMITER.join(
                 [dim_key.partition_key for dim_key in dimension_keys]

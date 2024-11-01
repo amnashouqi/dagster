@@ -18,9 +18,9 @@ from typing import (
     Tuple,
     Union,
 )
+from unittest import mock
 
 import dagster._check as check
-import mock
 import pytest
 from dagster import (
     AssetIn,
@@ -203,7 +203,7 @@ class AssetReconciliationScenario(
                 assets, asset_graph, auto_materialize_asset_keys
             )
 
-        return super(AssetReconciliationScenario, cls).__new__(
+        return super().__new__(
             cls,
             unevaluated_runs=unevaluated_runs,
             assets=assets_with_implicit_policies,

@@ -1,11 +1,4 @@
-import sys
-
-if sys.version_info >= (3, 8):
-    from typing import TypedDict
-else:
-    from typing_extensions import TypedDict
-
-from typing import Any, Dict, List
+from typing import Any, Dict, List, TypedDict
 
 
 class SerializationModule(TypedDict, total=False):

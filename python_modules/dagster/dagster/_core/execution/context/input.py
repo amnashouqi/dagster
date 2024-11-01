@@ -106,7 +106,7 @@ class InputContext:
             self._resources_contain_cm = isinstance(self._resources, IContainsGenerator)
             self._cm_scope_entered = False
 
-        self._events: List["DagsterEvent"] = []
+        self._events: List[DagsterEvent] = []
         self._observations: List[AssetObservation] = []
         self._instance = instance
 

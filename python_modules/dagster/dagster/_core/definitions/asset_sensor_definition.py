@@ -149,15 +149,14 @@ class AssetSensorDefinition(SensorDefinition):
 
                 result = materialization_fn(**args)
                 if inspect.isgenerator(result) or isinstance(result, list):
-                    for item in result:
-                        yield item
+                    yield from result
                 elif isinstance(result, (SkipReason, RunRequest)):
                     yield result
                 context.update_cursor(str(event_record.storage_id))
 
             return _fn
 
-        super(AssetSensorDefinition, self).__init__(
+        super().__init__(
             name=check_valid_name(name),
             job_name=job_name,
             evaluation_fn=_wrap_asset_fn(

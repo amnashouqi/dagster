@@ -147,7 +147,7 @@ class KnownExecutionState(
         # some old payloads (0.15.0 -> 0.15.6) were persisted with [None] mapping_keys
         # in dynamic_mappings, so can't assert [str] here in __new__.
 
-        return super(KnownExecutionState, cls).__new__(
+        return super().__new__(
             cls,
             check.opt_mapping_param(
                 previous_retry_attempts,

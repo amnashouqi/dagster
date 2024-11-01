@@ -69,7 +69,7 @@ class OpSelectionData(
     ):
         from dagster._core.definitions.job_definition import JobDefinition
 
-        return super(OpSelectionData, cls).__new__(
+        return super().__new__(
             cls,
             op_selection=check.sequence_param(op_selection, "op_selection", str),
             resolved_op_selection=check.set_param(

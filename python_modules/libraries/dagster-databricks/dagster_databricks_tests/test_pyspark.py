@@ -192,7 +192,7 @@ def test_pyspark_databricks(
     mock_submit_run_response = mock.Mock()
     mock_submit_run_response.bind.return_value = {"run_id": 12345}
     mock_submit_run.return_value = mock_submit_run_response
-    mock_read_file.return_value = "somefilecontents".encode()
+    mock_read_file.return_value = b"somefilecontents"
 
     running_state = DatabricksRunState(DatabricksRunLifeCycleState.RUNNING, None, "")
     final_state = DatabricksRunState(

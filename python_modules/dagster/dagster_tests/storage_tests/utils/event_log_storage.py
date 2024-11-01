@@ -8,8 +8,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import ExitStack, contextmanager
 from typing import List, Optional, Sequence, Tuple, cast
+from unittest import mock
 
-import mock
 import pytest
 import sqlalchemy as db
 from dagster import (
@@ -1957,10 +1957,10 @@ class TestEventLogStorage:
 
             # default is descending order
             assert result.records[0].storage_id > result.records[2].storage_id
-            storage_id_3, storage_id_2, storage_id_1 = [
+            storage_id_3, storage_id_2, storage_id_1 = (
                 event.storage_id for event in result.records
-            ]
-            timestamp_3, timestamp_2, timestamp_1 = [event.timestamp for event in result.records]
+            )
+            timestamp_3, timestamp_2, timestamp_1 = (event.timestamp for event in result.records)
 
             # apply a limit
             result = storage.fetch_run_status_changes(DagsterEventType.RUN_SUCCESS, limit=2)
@@ -2057,7 +2057,7 @@ class TestEventLogStorage:
             pytest.skip()
 
         asset_key = AssetKey(["path", "to", "asset_one"])
-        run_id_1, run_id_2, run_id_3 = [make_new_run_id() for _ in range(3)]
+        run_id_1, run_id_2, run_id_3 = (make_new_run_id() for _ in range(3))
 
         events = []
 
@@ -4144,7 +4144,7 @@ class TestEventLogStorage:
         def _ops():
             return_one()
 
-        run_id_1, run_id_2 = [make_new_run_id() for _ in range(2)]
+        run_id_1, run_id_2 = (make_new_run_id() for _ in range(2))
         for run_id in [run_id_1, run_id_2]:
             events, _ = _synthesize_events(_ops, run_id=run_id)
             for event in events:
@@ -4228,7 +4228,7 @@ class TestEventLogStorage:
         def _ops():
             return_one()
 
-        run_id_1, run_id_2, run_id_3, run_id_4 = [make_new_run_id() for _ in range(4)]
+        run_id_1, run_id_2, run_id_3, run_id_4 = (make_new_run_id() for _ in range(4))
         for run_id in [run_id_1, run_id_2, run_id_3, run_id_4]:
             events, _ = _synthesize_events(_ops, run_id=run_id)
             for event in events:
@@ -5195,7 +5195,7 @@ class TestEventLogStorage:
         self,
         storage: EventLogStorage,
     ):
-        run_id_1, run_id_2, run_id_3 = [make_new_run_id() for _ in range(3)]
+        run_id_1, run_id_2, run_id_3 = (make_new_run_id() for _ in range(3))
         check_key_1 = AssetCheckKey(AssetKey(["my_asset"]), "my_check")
         check_key_2 = AssetCheckKey(AssetKey(["my_asset"]), "my_check_2")
 
@@ -5449,7 +5449,7 @@ class TestEventLogStorage:
         storage: EventLogStorage,
         instance: DagsterInstance,
     ) -> None:
-        run_id_0, run_id_1 = [make_new_run_id() for _ in range(2)]
+        run_id_0, run_id_1 = (make_new_run_id() for _ in range(2))
         with create_and_delete_test_runs(instance, [run_id_0, run_id_1]):
             check_key_1 = AssetCheckKey(AssetKey(["my_asset"]), "my_check")
             check_key_2 = AssetCheckKey(AssetKey(["my_asset"]), "my_check_2")
@@ -5776,7 +5776,7 @@ class TestEventLogStorage:
                 .storage_id
             )
 
-        run_id_1, run_id_2, run_id_3 = [make_new_run_id() for i in range(3)]
+        run_id_1, run_id_2, run_id_3 = (make_new_run_id() for i in range(3))
         with create_and_delete_test_runs(instance, [run_id_1, run_id_2, run_id_3]):
             _synthesize_and_store_events(storage, lambda: observe_foo(), run_id_1)
 
@@ -5871,7 +5871,7 @@ class TestEventLogStorage:
                 .storage_id
             )
 
-        run_id_1, run_id_2, run_id_3 = [make_new_run_id() for i in range(3)]
+        run_id_1, run_id_2, run_id_3 = (make_new_run_id() for i in range(3))
         with create_and_delete_test_runs(instance, [run_id_1, run_id_2, run_id_3]):
             _synthesize_and_store_events(storage, lambda: materialize_foo(), run_id_1)
 
@@ -5961,7 +5961,7 @@ class TestEventLogStorage:
                 .storage_id
             )
 
-        run_id_1, run_id_2, run_id_3 = [make_new_run_id() for i in range(3)]
+        run_id_1, run_id_2, run_id_3 = (make_new_run_id() for i in range(3))
         with create_and_delete_test_runs(instance, [run_id_1, run_id_2, run_id_3]):
             _synthesize_and_store_events(storage, lambda: materialize_foo(), run_id_1)
 

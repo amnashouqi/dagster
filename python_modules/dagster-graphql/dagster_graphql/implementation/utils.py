@@ -246,7 +246,7 @@ class UserFacingGraphQLError(Exception):
             cls=error.__class__.__name__,
             message=error.message if hasattr(error, "message") else None,
         )
-        super(UserFacingGraphQLError, self).__init__(message)
+        super().__init__(message)
 
 
 def pipeline_selector_from_graphql(data: Mapping[str, Any]) -> JobSubsetSelector:
@@ -302,7 +302,7 @@ class ExecutionParams(
     ):
         check.opt_list_param(step_keys, "step_keys", of_type=str)
 
-        return super(ExecutionParams, cls).__new__(
+        return super().__new__(
             cls,
             selector=check.inst_param(selector, "selector", JobSubsetSelector),
             run_config=check.opt_mapping_param(run_config, "run_config", key_type=str),
@@ -341,7 +341,7 @@ class ExecutionMetadata(
         root_run_id: Optional[str] = None,
         parent_run_id: Optional[str] = None,
     ):
-        return super(ExecutionMetadata, cls).__new__(
+        return super().__new__(
             cls,
             check.opt_str_param(run_id, "run_id"),
             check.dict_param(tags, "tags", key_type=str, value_type=str),
@@ -366,7 +366,7 @@ def apply_cursor_limit_reverse(
     index = 0
 
     if cursor:
-        index = next((idx for (idx, item) in enumerate(items) if item == cursor))
+        index = next(idx for (idx, item) in enumerate(items) if item == cursor)
 
         if reverse:
             end = index

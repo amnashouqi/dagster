@@ -79,7 +79,7 @@ class PipesS3LogReader(PipesChunkedLogReader):
     ):
         self.bucket = bucket
         self.key = key
-        self.client: "S3Client" = client or boto3.client("s3")
+        self.client: S3Client = client or boto3.client("s3")
         self.decode_fn = decode_fn or default_log_decode_fn
 
         self.log_position = 0
@@ -323,7 +323,7 @@ class PipesCloudWatchMessageReader(PipesThreadedMessageReader):
         """Args:
         client (boto3.client): boto3 CloudWatch client.
         """
-        self.client: "CloudWatchLogsClient" = client or boto3.client("logs")
+        self.client: CloudWatchLogsClient = client or boto3.client("logs")
         self.log_group = log_group
         self.log_stream = log_stream
 

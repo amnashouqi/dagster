@@ -1,4 +1,3 @@
-# encoding: utf-8
 import hashlib
 import os
 from typing import (
@@ -60,7 +59,7 @@ INFER_OPTIONAL_COMPOSITE_FIELD = __InferOptionalCompositeFieldSentinel
 class _ConfigHasFields(ConfigType):
     def __init__(self, fields, **kwargs):
         self.fields = expand_fields_dict(fields)
-        super(_ConfigHasFields, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def type_iterator(self) -> Iterator["ConfigType"]:
         for field in self.fields.values():
@@ -153,7 +152,7 @@ class Shape(_ConfigHasFields):
             return
 
         fields = expand_fields_dict(fields)
-        super(Shape, self).__init__(
+        super().__init__(
             kind=ConfigTypeKind.STRICT_SHAPE,
             key=_define_shape_key_hash(fields, description, field_aliases),
             description=description,
@@ -204,7 +203,7 @@ class Map(ConfigType):
         )
         check.opt_str_param(self.given_name, "name")
 
-        super(Map, self).__init__(
+        super().__init__(
             key="Map.{key_type}.{inner_type}{name_key}".format(
                 key_type=self.key_type.key,
                 inner_type=self.inner_type.key,
@@ -271,7 +270,7 @@ class Permissive(_ConfigHasFields):
             return
 
         fields = expand_fields_dict(fields) if fields else None
-        super(Permissive, self).__init__(
+        super().__init__(
             key=_define_permissive_dict_key(fields, description),
             kind=ConfigTypeKind.PERMISSIVE_SHAPE,
             fields=fields or dict(),
@@ -338,7 +337,7 @@ class Selector(_ConfigHasFields):
             return
 
         fields = expand_fields_dict(fields)
-        super(Selector, self).__init__(
+        super().__init__(
             key=_define_selector_key(fields, description),
             kind=ConfigTypeKind.SELECTOR,
             fields=fields,

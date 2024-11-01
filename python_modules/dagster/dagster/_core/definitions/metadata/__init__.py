@@ -259,7 +259,7 @@ class MetadataEntry(
         )
         value = normalize_metadata_value(value)
 
-        return super(MetadataEntry, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(label, "label"),
             check.opt_str_param(description, "description"),

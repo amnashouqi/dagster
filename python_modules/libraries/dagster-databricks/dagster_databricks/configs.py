@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Fields here are taken from the Databricks API docs.
 
 Most are left the same, but some have been modified to better express

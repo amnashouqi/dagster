@@ -58,9 +58,9 @@ class AssetLayer(NamedTuple):
 
         node_output_handles_by_asset_check_key: Mapping[AssetCheckKey, NodeOutputHandle] = {}
         check_names_by_asset_key_by_node_handle: Dict[NodeHandle, Dict[AssetKey, Set[str]]] = {}
-        assets_defs_by_check_key: Dict[AssetCheckKey, "AssetsDefinition"] = {}
+        assets_defs_by_check_key: Dict[AssetCheckKey, AssetsDefinition] = {}
         outer_node_names_by_asset_key: Dict[AssetKey, str] = {}
-        assets_defs_by_op_handle: Dict[NodeHandle, "AssetsDefinition"] = {}
+        assets_defs_by_op_handle: Dict[NodeHandle, AssetsDefinition] = {}
 
         for node_handle, assets_def in assets_defs_by_outer_node_handle.items():
             computation = check.not_none(assets_def.computation)

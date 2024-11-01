@@ -55,11 +55,6 @@ import dagster._check as check
 import dagster._seven as seven
 from dagster._utils.internal_init import IHasInternalInit as IHasInternalInit
 
-if sys.version_info > (3,):
-    from pathlib import Path
-else:
-    from pathlib2 import Path
-
 if TYPE_CHECKING:
     from dagster._core.definitions.definitions_class import Definitions
     from dagster._core.definitions.repository_definition.repository_definition import (
@@ -578,7 +573,7 @@ def is_port_in_use(host, port) -> bool:
     try:
         sock.bind((host, port))
         return False
-    except socket.error as e:
+    except OSError as e:
         return e.errno == errno.EADDRINUSE
     finally:
         sock.close()
@@ -661,7 +656,7 @@ class Counter:
     def __init__(self):
         self._lock = threading.Lock()
         self._counts = {}
-        super(Counter, self).__init__()
+        super().__init__()
 
     def increment(self, key: str) -> None:
         with self._lock:
@@ -784,7 +779,7 @@ def xor(a: object, b: object) -> bool:
 
 
 def tail_file(path_or_fd: Union[str, int], should_stop: Callable[[], bool]) -> Iterator[str]:
-    with open(path_or_fd, "r") as output_stream:
+    with open(path_or_fd) as output_stream:
         while True:
             line = output_stream.readline()
             if line:

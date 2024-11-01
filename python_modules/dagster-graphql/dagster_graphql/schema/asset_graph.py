@@ -297,7 +297,7 @@ class GrapheneAssetNode(graphene.ObjectType):
         non_null_list(GrapheneAssetStaleCause), partition=graphene.String()
     )
     staleCausesByPartition = graphene.Field(
-        graphene.List((non_null_list(GrapheneAssetStaleCause))),
+        graphene.List(non_null_list(GrapheneAssetStaleCause)),
         partitions=graphene.List(graphene.NonNull(graphene.String)),
     )
     type = graphene.Field(GrapheneDagsterType)

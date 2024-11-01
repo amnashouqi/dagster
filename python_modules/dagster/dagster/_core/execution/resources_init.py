@@ -143,7 +143,7 @@ def _core_resource_initialization_event_generator(
         )
         job_name = cast(DagsterRun, dagster_run).job_name
     resource_keys_to_init = check.opt_set_param(resource_keys_to_init, "resource_keys_to_init")
-    resource_instances: Dict[str, "InitializedResource"] = {}
+    resource_instances: Dict[str, InitializedResource] = {}
     resource_init_times = {}
     try:
         if emit_persistent_events and resource_keys_to_init:

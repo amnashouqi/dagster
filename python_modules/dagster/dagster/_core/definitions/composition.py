@@ -282,7 +282,7 @@ class CompleteCompositionContext(NamedTuple):
         dep_dict: Dict[NodeInvocation, Dict[str, IDependencyDefinition]] = {}
         node_def_dict: Dict[str, NodeDefinition] = {}
         input_mappings = []
-        node_input_assets: Dict[str, Dict[str, "AssetsDefinition"]] = defaultdict(dict)
+        node_input_assets: Dict[str, Dict[str, AssetsDefinition]] = defaultdict(dict)
 
         for node in pending_invocations.values():
             _not_invoked_warning(node, source, name)

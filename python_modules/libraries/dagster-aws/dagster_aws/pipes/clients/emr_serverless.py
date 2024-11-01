@@ -183,7 +183,7 @@ class PipesEMRServerlessClient(PipesClient, TreatAsResourceParam):
             applicationId=start_response["applicationId"],
             jobRunId=job_run_id,
         ):
-            state: "JobRunStateType" = response["jobRun"]["state"]
+            state: JobRunStateType = response["jobRun"]["state"]
 
             if state in ["FAILED", "CANCELLED", "CANCELLING"]:
                 context.log.error(

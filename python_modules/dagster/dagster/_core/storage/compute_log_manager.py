@@ -2,9 +2,9 @@ import os
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
 from enum import Enum
-from typing import IO, Callable, Generator, Iterator, NamedTuple, Optional, Sequence, Tuple
+from typing import IO, Callable, Final, Generator, Iterator, NamedTuple, Optional, Sequence, Tuple
 
-from typing_extensions import Final, Self
+from typing_extensions import Self
 
 import dagster._check as check
 from dagster._core.captured_log_api import LogLineCursor
@@ -47,7 +47,7 @@ class CapturedLogContext(
                 " `external_stdout_url`/`external_stderr_url`"
             )
 
-        return super(CapturedLogContext, cls).__new__(
+        return super().__new__(
             cls,
             log_key,
             external_stdout_url=external_stdout_url,
@@ -78,7 +78,7 @@ class CapturedLogData(
         stderr: Optional[bytes] = None,
         cursor: Optional[str] = None,
     ):
-        return super(CapturedLogData, cls).__new__(cls, log_key, stdout, stderr, cursor)
+        return super().__new__(cls, log_key, stdout, stderr, cursor)
 
 
 class CapturedLogMetadata(
@@ -103,7 +103,7 @@ class CapturedLogMetadata(
         stdout_download_url: Optional[str] = None,
         stderr_download_url: Optional[str] = None,
     ):
-        return super(CapturedLogMetadata, cls).__new__(
+        return super().__new__(
             cls,
             stdout_location=stdout_location,
             stderr_location=stderr_location,

@@ -11,6 +11,7 @@ from typing import (
     AbstractSet,
     Any,
     Callable,
+    Final,
     Iterable,
     Iterator,
     Mapping,
@@ -25,7 +26,6 @@ from typing import (
 from weakref import WeakSet
 
 import toposort as toposort_
-from typing_extensions import Final
 
 import dagster._check as check
 from dagster._utils import library_version_from_core_version, parse_package_version

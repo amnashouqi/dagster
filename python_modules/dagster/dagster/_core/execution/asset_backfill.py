@@ -105,7 +105,7 @@ class PartitionedAssetBackfillStatus(
         num_targeted_partitions: int,
         partitions_counts_by_status: Mapping[AssetBackfillStatus, int],
     ):
-        return super(PartitionedAssetBackfillStatus, cls).__new__(
+        return super().__new__(
             cls,
             check.inst_param(asset_key, "asset_key", AssetKey),
             check.int_param(num_targeted_partitions, "num_targeted_partitions"),
@@ -125,7 +125,7 @@ class UnpartitionedAssetBackfillStatus(
     )
 ):
     def __new__(cls, asset_key: AssetKey, asset_backfill_status: Optional[AssetBackfillStatus]):
-        return super(UnpartitionedAssetBackfillStatus, cls).__new__(
+        return super().__new__(
             cls,
             check.inst_param(asset_key, "asset_key", AssetKey),
             check.opt_inst_param(

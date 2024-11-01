@@ -97,7 +97,7 @@ class FakeLambdaClient:
                 response["FunctionError"] = "Unhandled"
 
             elif result.returncode != 0:
-                with open(log_path, "r") as f:
+                with open(log_path) as f:
                     print(f.read())  # noqa: T201
                 result.check_returncode()
 

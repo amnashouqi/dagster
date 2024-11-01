@@ -12,6 +12,7 @@ from enum import Enum
 from typing import (
     Any,
     Dict,
+    Final,
     Iterable,
     List,
     Mapping,
@@ -25,7 +26,7 @@ from typing import (
     cast,
 )
 
-from typing_extensions import Final, Self, TypeAlias
+from typing_extensions import Self, TypeAlias
 
 from dagster import (
     StaticPartitionsDefinition,

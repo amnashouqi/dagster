@@ -149,7 +149,7 @@ class AutoMaterializePolicy(
                 "`max_materializations_per_minute` is not supported when using `asset_condition`.",
             )
 
-        return super(AutoMaterializePolicy, cls).__new__(
+        return super().__new__(
             cls,
             rules=frozenset(check.set_param(rules, "rules", of_type=AutoMaterializeRule)),
             max_materializations_per_minute=max_materializations_per_minute,

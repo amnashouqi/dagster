@@ -1094,7 +1094,7 @@ class DailyPartitionsDefinition(TimeWindowPartitionsDefinition):
         if cron_schedule:
             schedule_type = None
 
-        return super(DailyPartitionsDefinition, cls).__new__(
+        return super().__new__(
             cls,
             schedule_type=schedule_type,
             start=start_date,
@@ -1273,7 +1273,7 @@ class HourlyPartitionsDefinition(TimeWindowPartitionsDefinition):
         if cron_schedule:
             schedule_type = None
 
-        return super(HourlyPartitionsDefinition, cls).__new__(
+        return super().__new__(
             cls,
             schedule_type=schedule_type,
             start=start_date,
@@ -1428,7 +1428,7 @@ class MonthlyPartitionsDefinition(TimeWindowPartitionsDefinition):
             )
             day_offset = 0
 
-        return super(MonthlyPartitionsDefinition, cls).__new__(
+        return super().__new__(
             cls,
             schedule_type=schedule_type,
             start=start_date,
@@ -1589,7 +1589,7 @@ class WeeklyPartitionsDefinition(TimeWindowPartitionsDefinition):
         if cron_schedule:
             schedule_type = None
 
-        return super(WeeklyPartitionsDefinition, cls).__new__(
+        return super().__new__(
             cls,
             schedule_type=schedule_type,
             start=start_date,
@@ -2121,7 +2121,7 @@ class PartitionKeysTimeWindowPartitionsSubset(BaseTimeWindowPartitionsSubset):
             isinstance(other, PartitionKeysTimeWindowPartitionsSubset)
             and self._partitions_def == other._partitions_def
             and self._included_partition_keys == other._included_partition_keys
-        ) or super(PartitionKeysTimeWindowPartitionsSubset, self).__eq__(other)
+        ) or super().__eq__(other)
 
     @classmethod
     def empty_subset(
@@ -2237,7 +2237,7 @@ class TimeWindowPartitionsSubset(
             for tw in included_time_windows
         ]
 
-        return super(TimeWindowPartitionsSubset, cls).__new__(
+        return super().__new__(
             cls,
             partitions_def=check.inst_param(
                 partitions_def, "partitions_def", TimeWindowPartitionsDefinition

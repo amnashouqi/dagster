@@ -49,13 +49,12 @@ from dagster_dbt.version import __version__ as __version__
 # ##### DYNAMIC IMPORTS
 # ########################
 import importlib
-from typing import Any, Mapping, Sequence, Tuple
+from typing import Any, Final, Mapping, Sequence, Tuple
 
 from dagster._annotations import deprecated
 from dagster._core.libraries import DagsterLibraryRegistry
 from dagster._utils.warnings import deprecation_warning
 from dbt.version import __version__ as __dbt_version__
-from typing_extensions import Final
 
 DagsterLibraryRegistry.register("dagster-dbt", __version__)
 DagsterLibraryRegistry.register("dbt-core", __dbt_version__, is_dagster_package=False)

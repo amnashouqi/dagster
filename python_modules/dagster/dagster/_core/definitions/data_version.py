@@ -4,6 +4,7 @@ from hashlib import sha256
 from typing import (
     TYPE_CHECKING,
     Callable,
+    Final,
     Iterator,
     List,
     Mapping,
@@ -12,8 +13,6 @@ from typing import (
     Sequence,
     Union,
 )
-
-from typing_extensions import Final
 
 from dagster import _check as check
 from dagster._annotations import deprecated, experimental
@@ -57,7 +56,7 @@ class DataVersion(
         cls,
         value: str,
     ):
-        return super(DataVersion, cls).__new__(
+        return super().__new__(
             cls,
             value=check.str_param(value, "value"),
         )
@@ -79,7 +78,7 @@ class DataVersionsByPartition(
             key_type=str,
             value_type=(str, DataVersion),
         )
-        return super(DataVersionsByPartition, cls).__new__(
+        return super().__new__(
             cls,
             data_versions_by_partition={
                 partition: DataVersion(version) if isinstance(version, str) else version
@@ -124,7 +123,7 @@ class DataProvenance(
     ):
         from dagster._core.definitions.events import AssetKey
 
-        return super(DataProvenance, cls).__new__(
+        return super().__new__(
             cls,
             code_version=check.str_param(code_version, "code_version"),
             input_data_versions=check.mapping_param(

@@ -4,7 +4,7 @@ import uuid
 from argparse import ArgumentParser, Namespace
 from contextlib import suppress
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple, Union, cast
+from typing import Any, Dict, Final, Iterable, List, Mapping, Optional, Sequence, Tuple, Union, cast
 
 import yaml
 from dagster import (
@@ -28,7 +28,6 @@ from dbt.flags import get_flags, set_from_args
 from dbt.version import __version__ as dbt_version
 from packaging import version
 from pydantic import Field, model_validator, validator
-from typing_extensions import Final
 
 from dagster_dbt.asset_utils import (
     DAGSTER_DBT_EXCLUDE_METADATA_KEY,

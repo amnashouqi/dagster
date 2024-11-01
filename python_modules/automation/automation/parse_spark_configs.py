@@ -154,7 +154,7 @@ CONFIG_TYPES = {
 class SparkConfig(NamedTuple("_SparkConfig", [("path", str), ("default", str), ("meaning", str)])):
     def __new__(cls, path: str, default: object, meaning: str):
         # The original documentation strings include extraneous newlines, spaces
-        return super(SparkConfig, cls).__new__(
+        return super().__new__(
             cls,
             path,
             re.sub(WHITESPACE_REGEX, " ", str(default)).strip(),

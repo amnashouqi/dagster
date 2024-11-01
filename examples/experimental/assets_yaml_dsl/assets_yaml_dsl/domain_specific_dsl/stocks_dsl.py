@@ -17,7 +17,7 @@ from dagster._core.pipes.subprocess import PipesSubprocessClient
 
 def load_yaml(relative_path: str) -> Dict[str, Any]:
     path = os.path.join(os.path.dirname(__file__), relative_path)
-    with open(path, "r", encoding="utf8") as ff:
+    with open(path, encoding="utf8") as ff:
         return yaml.load(ff, Loader=Loader)
 
 

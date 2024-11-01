@@ -659,7 +659,7 @@ class PipesDefaultContextLoader(PipesContextLoader):
     def load_context(self, params: PipesParams) -> Iterator[PipesContextData]:
         if self.FILE_PATH_KEY in params:
             path = _assert_env_param_type(params, self.FILE_PATH_KEY, str, self.__class__)
-            with open(path, "r") as f:
+            with open(path) as f:
                 data = json.load(f)
                 yield data
         elif self.DIRECT_KEY in params:
@@ -927,7 +927,7 @@ class PipesDbfsContextLoader(PipesContextLoader):
     def load_context(self, params: PipesParams) -> Iterator[PipesContextData]:
         unmounted_path = _assert_env_param_type(params, "path", str, self.__class__)
         path = os.path.join("/dbfs", unmounted_path.lstrip("/"))
-        with open(path, "r") as f:
+        with open(path) as f:
             yield json.load(f)
 
 

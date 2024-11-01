@@ -174,7 +174,7 @@ def generate_changelog(new_version: str, prev_version: Optional[str] = None) -> 
         repo.git.checkout("master")
 
     new_text = _generate_changelog_text(new_version, prev_version)
-    with open(CHANGELOG_PATH, "r") as f:
+    with open(CHANGELOG_PATH) as f:
         current_changelog = f.read()
 
     new_changelog = new_text + current_changelog[1:]

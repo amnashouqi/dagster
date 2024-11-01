@@ -4,9 +4,8 @@ import sys
 from collections import defaultdict
 from contextlib import contextmanager
 from pathlib import Path
-from typing import IO, Generator, Iterator, Mapping, Optional, Sequence, Tuple
+from typing import IO, Final, Generator, Iterator, Mapping, Optional, Sequence, Tuple
 
-from typing_extensions import Final
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers.polling import PollingObserver
 
@@ -174,7 +173,7 @@ class LocalComputeLogManager(ComputeLogManager, ConfigurableClass):
         if not parts or len(parts) != 2:
             return 0, 0
 
-        stdout, stderr = [int(_) for _ in parts]
+        stdout, stderr = (int(_) for _ in parts)
         return stdout, stderr
 
     def build_cursor(self, stdout_offset: int, stderr_offset: int) -> str:
@@ -355,7 +354,7 @@ class LocalComputeLogFilesystemEventHandler(PatternMatchingEventHandler):
         self.update_paths = update_paths
         self.complete_paths = complete_paths
         patterns = update_paths + complete_paths
-        super(LocalComputeLogFilesystemEventHandler, self).__init__(patterns=patterns)
+        super().__init__(patterns=patterns)
 
     def on_created(self, event):
         if event.src_path in self.complete_paths:

@@ -121,7 +121,7 @@ class K8sContainerContext(
             server_k8s_config or UserDefinedDagsterK8sConfig.from_dict({}),
         )
 
-        return super(K8sContainerContext, cls).__new__(
+        return super().__new__(
             cls,
             run_k8s_config=run_k8s_config,
             server_k8s_config=server_k8s_config,

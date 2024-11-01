@@ -69,7 +69,7 @@ class IOManagerDefinition(ResourceDefinition, IInputManagerDefinition, IOutputMa
             if output_config_schema is not None
             else None
         )
-        super(IOManagerDefinition, self).__init__(
+        super().__init__(
             resource_fn=resource_fn,
             config_schema=config_schema,
             description=description,

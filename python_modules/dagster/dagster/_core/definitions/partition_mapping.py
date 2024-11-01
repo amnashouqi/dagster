@@ -615,7 +615,7 @@ class MultiToSingleDimensionPartitionMapping(
     """
 
     def __new__(cls, partition_dimension_name: Optional[str] = None):
-        return super(MultiToSingleDimensionPartitionMapping, cls).__new__(
+        return super().__new__(
             cls,
             partition_dimension_name=check.opt_str_param(
                 partition_dimension_name, "partition_dimension_name"
@@ -670,7 +670,7 @@ class DimensionPartitionMapping(
         dimension_name: str,
         partition_mapping: PartitionMapping,
     ):
-        return super(DimensionPartitionMapping, cls).__new__(
+        return super().__new__(
             cls,
             dimension_name=check.str_param(dimension_name, "dimension_name"),
             partition_mapping=check.inst_param(
@@ -769,7 +769,7 @@ class MultiPartitionMapping(
     def __new__(
         cls, downstream_mappings_by_upstream_dimension: Mapping[str, DimensionPartitionMapping]
     ):
-        return super(MultiPartitionMapping, cls).__new__(
+        return super().__new__(
             cls,
             downstream_mappings_by_upstream_dimension=check.mapping_param(
                 downstream_mappings_by_upstream_dimension,
@@ -997,7 +997,7 @@ class InferSingleToMultiDimensionDepsResult(
         if not can_infer and inference_failure_reason is None:
             check.failed("inference_failure_reason must be provided if can_infer is False")
 
-        return super(InferSingleToMultiDimensionDepsResult, cls).__new__(
+        return super().__new__(
             cls,
             can_infer,
             inference_failure_reason,

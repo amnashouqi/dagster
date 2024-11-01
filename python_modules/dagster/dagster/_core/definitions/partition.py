@@ -463,7 +463,7 @@ class DynamicPartitionsDefinition(
                 "Cannot provide both partition_fn and name to DynamicPartitionsDefinition."
             )
 
-        return super(DynamicPartitionsDefinition, cls).__new__(
+        return super().__new__(
             cls,
             partition_fn=check.opt_callable_param(partition_fn, "partition_fn"),
             name=check.opt_str_param(name, "name"),
@@ -1099,7 +1099,7 @@ class DefaultPartitionsSubset(
         subset: Optional[AbstractSet[str]] = None,
     ):
         check.opt_set_param(subset, "subset")
-        return super(DefaultPartitionsSubset, cls).__new__(cls, subset or set())
+        return super().__new__(cls, subset or set())
 
     def get_partition_keys_not_in_subset(
         self,

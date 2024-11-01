@@ -1,12 +1,6 @@
-import sys
-from typing import Dict, Optional
+from typing import Dict, Literal, Optional
 
 from dagster import Config
-
-if sys.version_info >= (3, 8):
-    from typing import Literal
-else:
-    from typing_extensions import Literal
 
 
 def _to_str_dict(dictionary: Dict) -> Dict[str, str]:

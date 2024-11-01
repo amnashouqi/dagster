@@ -340,7 +340,7 @@ class DatabricksPySparkStepLauncher(StepLauncher):
             metadata["databricks_run_url"] = MetadataValue.url(run_page_url)
         return DagsterEvent.from_step(
             event_type=DagsterEventType.ENGINE_EVENT,
-            message="Waiting for Databricks run %s to complete..." % databricks_run_id,
+            message=f"Waiting for Databricks run {databricks_run_id} to complete...",
             step_context=context,
             event_specific_data=EngineEventData(
                 metadata=metadata,

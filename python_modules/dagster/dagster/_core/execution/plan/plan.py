@@ -657,7 +657,7 @@ class ExecutionPlan(
         executor_name: Optional[str] = None,
         repository_load_data: Optional[RepositoryLoadData] = None,
     ):
-        return super(ExecutionPlan, cls).__new__(
+        return super().__new__(
             cls,
             step_dict=check.dict_param(
                 step_dict,

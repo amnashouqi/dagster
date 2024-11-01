@@ -29,7 +29,7 @@ def extract_pyobject_object_and_module() -> Dict[str, List[dict]]:
     mdx_files = glob("**/*.mdx", recursive=True)
     references = {}
     for f in mdx_files:
-        content = open(f, "r").read().replace("\n", " ")
+        content = open(f).read().replace("\n", " ")
         matches = [
             {"object": m.group(1), "module": m.group(2)}
             for m in re.finditer(PYOBJECT_PATTERN, content)

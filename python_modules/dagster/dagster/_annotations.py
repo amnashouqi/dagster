@@ -1,8 +1,8 @@
 import inspect
 from dataclasses import dataclass
-from typing import Any, Callable, Mapping, Optional, TypeVar, Union, overload
+from typing import Any, Callable, Final, Mapping, Optional, TypeVar, Union, overload
 
-from typing_extensions import Annotated, Final, TypeAlias
+from typing_extensions import Annotated, TypeAlias
 
 from dagster import _check as check
 from dagster._core.decorator_utils import (

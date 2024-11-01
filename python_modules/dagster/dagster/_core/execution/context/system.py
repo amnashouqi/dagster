@@ -288,9 +288,7 @@ class StepOrchestrationContext(PlanOrchestrationContext, IStepContext):
         step: ExecutionStep,
         output_capture: Optional[Dict[StepOutputHandle, Any]],
     ):
-        super(StepOrchestrationContext, self).__init__(
-            plan_data, log_manager, executor, output_capture
-        )
+        super().__init__(plan_data, log_manager, executor, output_capture)
         self._step = step
 
     @property
@@ -423,7 +421,7 @@ class StepExecutionContext(PlanExecutionContext, IStepContext):
     ):
         from dagster._core.execution.resources_init import get_required_resource_keys_for_step
 
-        super(StepExecutionContext, self).__init__(
+        super().__init__(
             plan_data=plan_data,
             execution_data=execution_data,
             log_manager=log_manager,
@@ -1306,20 +1304,20 @@ class DagsterTypeLoaderContext(StepExecutionContext):
     @property
     def resources(self) -> "Resources":
         """The resources available to the type loader, specified by the `required_resource_keys` argument of the decorator."""
-        return super(DagsterTypeLoaderContext, self).resources
+        return super().resources
 
     @public
     @property
     def job_def(self) -> "JobDefinition":
         """The underlying job definition being executed."""
-        return super(DagsterTypeLoaderContext, self).job_def
+        return super().job_def
 
     @property
     def repository_def(self) -> "RepositoryDefinition":
-        return super(DagsterTypeLoaderContext, self).repository_def
+        return super().repository_def
 
     @public
     @property
     def op_def(self) -> "OpDefinition":
         """The op for which type loading is occurring."""
-        return super(DagsterTypeLoaderContext, self).op_def
+        return super().op_def

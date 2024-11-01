@@ -124,7 +124,7 @@ class AssetStatusCacheValue(
         check.opt_str_param(
             serialized_in_progress_partition_subset, "serialized_in_progress_partition_subset"
         )
-        return super(AssetStatusCacheValue, cls).__new__(
+        return super().__new__(
             cls,
             latest_storage_id,
             partitions_def_id,

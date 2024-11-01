@@ -248,6 +248,9 @@ select = [
 
   # (invalid escape sequence) flag errant backslashes
   "W605",
+
+  # pyupgrade - automatically upgrade Python syntax to newer versions
+  "UP",
 ]
 
 [tool.ruff.lint.flake8-builtins]

@@ -182,7 +182,7 @@ def build_caching_repository_data_from_list(
     sensors: Dict[str, SensorDefinition] = {}
     assets_defs: List[AssetsDefinition] = []
     asset_keys: Set[AssetKey] = set()
-    asset_check_keys: Set["AssetCheckKey"] = set()
+    asset_check_keys: Set[AssetCheckKey] = set()
     source_assets: List[SourceAsset] = []
     asset_checks_defs: List[AssetsDefinition] = []
     partitions_defs: Set[PartitionsDefinition] = set()
@@ -523,7 +523,7 @@ def _validate_auto_materialize_sensors(
     sensors: Iterable[SensorDefinition], asset_graph: BaseAssetGraph
 ) -> None:
     """Raises an error if two or more automation policy sensors target the same asset."""
-    sensor_names_by_asset_key: Dict["AssetKey", str] = {}
+    sensor_names_by_asset_key: Dict[AssetKey, str] = {}
     for sensor in sensors:
         if isinstance(sensor, AutomationConditionSensorDefinition):
             asset_keys = sensor.asset_selection.resolve(asset_graph)

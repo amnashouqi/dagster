@@ -143,7 +143,7 @@ class PerInvocationProperties(
         op_config: Any,
         step_description: str,
     ):
-        return super(PerInvocationProperties, cls).__new__(
+        return super().__new__(
             cls,
             op_def=check.inst_param(op_def, "op_def", OpDefinition),
             tags=check.dict_param(tags, "tags"),

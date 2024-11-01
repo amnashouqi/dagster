@@ -236,7 +236,7 @@ def _format_field_diff(field_diff: Mapping[str, Tuple[Any, Any]]) -> str:
 class _EventListenerLogHandler(logging.Handler):
     def __init__(self, instance: "DagsterInstance"):
         self._instance = instance
-        super(_EventListenerLogHandler, self).__init__()
+        super().__init__()
 
     def emit(self, record: logging.LogRecord) -> None:
         from dagster._core.events import EngineEventData
@@ -569,18 +569,14 @@ class DagsterInstance(DynamicPartitionsStore):
 
         if not os.path.isabs(dagster_home_path):
             raise DagsterInvariantViolationError(
-                (
-                    f'$DAGSTER_HOME "{dagster_home_path}" must be an absolute path. Dagster requires this '
-                    "environment variable to be set to an existing directory in your filesystem."
-                )
+                f'$DAGSTER_HOME "{dagster_home_path}" must be an absolute path. Dagster requires this '
+                "environment variable to be set to an existing directory in your filesystem."
             )
 
         if not (os.path.exists(dagster_home_path) and os.path.isdir(dagster_home_path)):
             raise DagsterInvariantViolationError(
-                (
-                    f'$DAGSTER_HOME "{dagster_home_path}" is not a directory or does not exist. Dagster requires this'
-                    " environment variable to be set to an existing directory in your filesystem"
-                )
+                f'$DAGSTER_HOME "{dagster_home_path}" is not a directory or does not exist. Dagster requires this'
+                " environment variable to be set to an existing directory in your filesystem"
             )
 
         return DagsterInstance.from_config(dagster_home_path)

@@ -48,7 +48,7 @@ class PipesECSClient(PipesClient, TreatAsResourceParam):
         message_reader: Optional[PipesMessageReader] = None,
         forward_termination: bool = True,
     ):
-        self._client: "ECSClient" = client or boto3.client("ecs")
+        self._client: ECSClient = client or boto3.client("ecs")
         self._context_injector = context_injector or PipesEnvContextInjector()
         self._message_reader = message_reader or PipesCloudWatchMessageReader()
         self.forward_termination = check.bool_param(forward_termination, "forward_termination")

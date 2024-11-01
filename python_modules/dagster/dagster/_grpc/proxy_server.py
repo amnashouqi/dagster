@@ -49,7 +49,7 @@ class DagsterProxyApiServicer(DagsterApiServicer):
         instance_ref: Optional[InstanceRef],
         logger: logging.Logger,
     ):
-        super(DagsterProxyApiServicer, self).__init__()
+        super().__init__()
 
         self._loadable_target_origin = loadable_target_origin
         self._fixed_server_id = fixed_server_id

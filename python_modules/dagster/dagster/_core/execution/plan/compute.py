@@ -105,16 +105,14 @@ def _validate_event(event: Any, step_context: StepExecutionContext) -> OpOutputU
         ),
     ):
         raise DagsterInvariantViolationError(
-            (
-                f"Compute function for {step_context.describe_op()} yielded a value of type {type(event)} "
-                "rather than an instance of Output, AssetMaterialization, or ExpectationResult."
-                f" Values yielded by {step_context.op_def.node_type_str}s must be wrapped in one of these types. If your "
-                f"{step_context.op_def.node_type_str} has a single output and yields no other events, you may want to use "
-                f"`return` instead of `yield` in the body of your {step_context.op_def.node_type_str} compute function. If "
-                "you are already using `return`, and you expected to return a value of type "
-                f"{type(event)}, you may be inadvertently returning a generator rather than the value "
-                # f"you expected. Value is {str(event[0])}"
-            )
+            f"Compute function for {step_context.describe_op()} yielded a value of type {type(event)} "
+            "rather than an instance of Output, AssetMaterialization, or ExpectationResult."
+            f" Values yielded by {step_context.op_def.node_type_str}s must be wrapped in one of these types. If your "
+            f"{step_context.op_def.node_type_str} has a single output and yields no other events, you may want to use "
+            f"`return` instead of `yield` in the body of your {step_context.op_def.node_type_str} compute function. If "
+            "you are already using `return`, and you expected to return a value of type "
+            f"{type(event)}, you may be inadvertently returning a generator rather than the value "
+            # f"you expected. Value is {str(event[0])}"
         )
 
     return event
@@ -144,11 +142,9 @@ def _yield_compute_results(
 
     if isinstance(user_event_generator, Output):
         raise DagsterInvariantViolationError(
-            (
-                f"Compute function for {step_context.describe_op()} returned an Output rather than "
-                f"yielding it. The compute_fn of the {step_context.op_def.node_type_str} must yield "
-                "its results"
-            )
+            f"Compute function for {step_context.describe_op()} returned an Output rather than "
+            f"yielding it. The compute_fn of the {step_context.op_def.node_type_str} must yield "
+            "its results"
         )
 
     if user_event_generator is None:

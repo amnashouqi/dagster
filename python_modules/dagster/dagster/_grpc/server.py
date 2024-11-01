@@ -353,7 +353,7 @@ class DagsterApiServer(DagsterApiServicer):
         location_name: Optional[str] = None,
         enable_metrics: bool = False,
     ):
-        super(DagsterApiServer, self).__init__()
+        super().__init__()
 
         check.bool_param(heartbeat, "heartbeat")
         check.int_param(heartbeat_timeout, "heartbeat_timeout")
@@ -1290,7 +1290,7 @@ class DagsterGrpcServer:
 
 class CouldNotStartServerProcess(Exception):
     def __init__(self, port=None, socket=None):
-        super(CouldNotStartServerProcess, self).__init__(
+        super().__init__(
             "Could not start server with "
             + (f"port {port}" if port is not None else f"socket {socket}")
         )

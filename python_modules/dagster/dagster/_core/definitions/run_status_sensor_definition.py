@@ -111,7 +111,7 @@ class RunStatusSensorCursor(
     )
 ):
     def __new__(cls, record_id, update_timestamp=None, record_timestamp=None):
-        return super(RunStatusSensorCursor, cls).__new__(
+        return super().__new__(
             cls,
             record_id=check.int_param(record_id, "record_id"),
             update_timestamp=check.opt_str_param(update_timestamp, "update_timestamp"),
@@ -961,7 +961,7 @@ class RunStatusSensorDefinition(SensorDefinition):
                     error=serializable_error,
                 )
 
-        super(RunStatusSensorDefinition, self).__init__(
+        super().__init__(
             name=name,
             evaluation_fn=_wrapped_fn,
             minimum_interval_seconds=minimum_interval_seconds,

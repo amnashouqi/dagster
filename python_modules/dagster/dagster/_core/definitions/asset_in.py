@@ -62,7 +62,7 @@ class AssetIn(
             not (key and key_prefix), "key and key_prefix cannot both be set on AssetIn"
         )
 
-        return super(AssetIn, cls).__new__(
+        return super().__new__(
             cls,
             key=AssetKey.from_coercible(key) if key is not None else None,
             metadata=check.opt_inst_param(metadata, "metadata", Mapping),

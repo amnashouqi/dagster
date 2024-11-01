@@ -22,11 +22,10 @@ import os
 import signal
 from logging import Logger
 from subprocess import PIPE, STDOUT, Popen
-from typing import Mapping, Optional, Tuple
+from typing import Final, Mapping, Optional, Tuple
 
 import dagster._check as check
 from dagster._utils import safe_tempfile_path
-from typing_extensions import Final
 
 OUTPUT_LOGGING_OPTIONS: Final = ["STREAM", "BUFFER", "NONE"]
 
@@ -74,7 +73,7 @@ def execute_script_file(
     env = check.opt_nullable_dict_param(env, "env", key_type=str, value_type=str)
 
     if output_logging not in OUTPUT_LOGGING_OPTIONS:
-        raise Exception("Unrecognized output_logging %s" % output_logging)
+        raise Exception(f"Unrecognized output_logging {output_logging}")
 
     def pre_exec():
         # Restore default signal disposition and invoke setsid
@@ -172,7 +171,7 @@ def execute(
 
     with safe_tempfile_path() as tmp_file_path:
         tmp_path = os.path.dirname(tmp_file_path)
-        log.info("Using temporary directory: %s" % tmp_path)
+        log.info(f"Using temporary directory: {tmp_path}")
 
         with open(tmp_file_path, "wb") as tmp_file:
             tmp_file.write(shell_command.encode("utf-8"))

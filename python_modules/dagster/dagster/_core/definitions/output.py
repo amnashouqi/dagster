@@ -241,7 +241,7 @@ class DynamicOutputDefinition(OutputDefinition):
 
 class OutputPointer(NamedTuple("_OutputPointer", [("node_name", str), ("output_name", str)])):
     def __new__(cls, node_name: str, output_name: Optional[str] = None):
-        return super(OutputPointer, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(node_name, "node_name"),
             check.opt_str_param(output_name, "output_name", DEFAULT_OUTPUT),
@@ -365,7 +365,7 @@ class Out(
         code_version: Optional[str] = None,
         # make sure new parameters are updated in combine_with_inferred below
     ):
-        return super(Out, cls).__new__(
+        return super().__new__(
             cls,
             dagster_type=(
                 NoValueSentinel
@@ -496,7 +496,7 @@ class GraphOut(NamedTuple("_GraphOut", [("description", PublicAttr[Optional[str]
     """
 
     def __new__(cls, description: Optional[str] = None):
-        return super(GraphOut, cls).__new__(cls, description=description)
+        return super().__new__(cls, description=description)
 
     def to_definition(self, name: Optional[str]) -> "OutputDefinition":
         return OutputDefinition(name=name, description=self.description)

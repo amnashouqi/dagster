@@ -106,7 +106,7 @@ class _Repository:
         if not self.name:
             self.name = fn.__name__
 
-        cacheable_asset_data: Dict[str, Sequence["AssetsDefinitionCacheableData"]] = {}
+        cacheable_asset_data: Dict[str, Sequence[AssetsDefinitionCacheableData]] = {}
         reconstruction_metadata = {
             k: v
             for k, v in self.metadata.items()

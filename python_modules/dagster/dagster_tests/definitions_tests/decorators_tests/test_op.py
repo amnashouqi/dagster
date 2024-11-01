@@ -361,8 +361,7 @@ def test_op_yields_multiple_bare_values():
 
 def test_op_returns_iterator():
     def iterator():
-        for i in range(3):
-            yield i
+        yield from range(3)
 
     @op
     def return_iterator(_):

@@ -260,7 +260,7 @@ class GraphDefinition(NodeDefinition):
 
         self._composition_fn = check.opt_callable_param(composition_fn, "composition_fn")
 
-        super(GraphDefinition, self).__init__(
+        super().__init__(
             name=name,
             description=description,
             input_defs=input_defs,
@@ -807,13 +807,13 @@ class GraphDefinition(NodeDefinition):
     @property
     def name(self) -> str:
         """The name of the graph."""
-        return super(GraphDefinition, self).name
+        return super().name
 
     @public
     @property
     def tags(self) -> Mapping[str, str]:
         """The tags associated with the graph."""
-        return super(GraphDefinition, self).tags
+        return super().tags
 
     @public
     def alias(self, name: str) -> "PendingNodeInvocation":
@@ -828,7 +828,7 @@ class GraphDefinition(NodeDefinition):
                 def do_it_all():
                     my_graph.alias("my_graph_alias")
         """
-        return super(GraphDefinition, self).alias(name)
+        return super().alias(name)
 
     @public
     def tag(self, tags: Optional[Mapping[str, str]]) -> "PendingNodeInvocation":
@@ -843,7 +843,7 @@ class GraphDefinition(NodeDefinition):
                 def do_it_all():
                     my_graph.tag({"my_tag": "my_value"})
         """
-        return super(GraphDefinition, self).tag(tags)
+        return super().tag(tags)
 
     @public
     def with_hooks(self, hook_defs: AbstractSet[HookDefinition]) -> "PendingNodeInvocation":
@@ -858,7 +858,7 @@ class GraphDefinition(NodeDefinition):
                 def do_it_all():
                     my_graph.with_hooks({my_hook})
         """
-        return super(GraphDefinition, self).with_hooks(hook_defs)
+        return super().with_hooks(hook_defs)
 
     @public
     def with_retry_policy(self, retry_policy: RetryPolicy) -> "PendingNodeInvocation":
@@ -873,7 +873,7 @@ class GraphDefinition(NodeDefinition):
                 def do_it_all():
                     my_graph.with_retry_policy(RetryPolicy(max_retries=5))
         """
-        return super(GraphDefinition, self).with_retry_policy(retry_policy)
+        return super().with_retry_policy(retry_policy)
 
     def resolve_input_to_destinations(
         self, input_handle: NodeInputHandle
@@ -1018,7 +1018,7 @@ class SubselectedGraphDefinition(GraphDefinition):
         self._parent_graph_def = check.inst_param(
             parent_graph_def, "parent_graph_def", GraphDefinition
         )
-        super(SubselectedGraphDefinition, self).__init__(
+        super().__init__(
             name=parent_graph_def.name,  # should we create special name for subselected graphs
             node_defs=node_defs,
             dependencies=dependencies,

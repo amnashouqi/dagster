@@ -320,7 +320,7 @@ def _checked_inferred_type(inferred: InferredInputProps) -> DagsterType:
 
 class InputPointer(NamedTuple("_InputPointer", [("node_name", str), ("input_name", str)])):
     def __new__(cls, node_name: str, input_name: str):
-        return super(InputPointer, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(node_name, "node_name"),
             check.str_param(input_name, "input_name"),
@@ -333,7 +333,7 @@ class FanInInputPointer(
     )
 ):
     def __new__(cls, node_name: str, input_name: str, fan_in_index: int):
-        return super(FanInInputPointer, cls).__new__(
+        return super().__new__(
             cls,
             check.str_param(node_name, "node_name"),
             check.str_param(input_name, "input_name"),
@@ -471,7 +471,7 @@ class In(
         asset_partitions: Optional[Union[Set[str], Callable[["InputContext"], Set[str]]]] = None,
         input_manager_key: Optional[str] = None,
     ):
-        return super(In, cls).__new__(
+        return super().__new__(
             cls,
             dagster_type=(
                 NoValueSentinel
@@ -520,7 +520,7 @@ class GraphIn(NamedTuple("_GraphIn", [("description", PublicAttr[Optional[str]])
     """
 
     def __new__(cls, description: Optional[str] = None):
-        return super(GraphIn, cls).__new__(cls, description=description)
+        return super().__new__(cls, description=description)
 
     def to_definition(self, name: str) -> InputDefinition:
         return InputDefinition(name=name, description=self.description)

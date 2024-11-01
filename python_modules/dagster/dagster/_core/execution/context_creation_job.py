@@ -276,7 +276,7 @@ class PlanOrchestrationContextManager(ExecutionContextManager[PlanOrchestrationC
             output_capture,
             resume_from_failure=resume_from_failure,
         )
-        super(PlanOrchestrationContextManager, self).__init__(event_generator)
+        super().__init__(event_generator)
 
     @property
     def context_type(self) -> Type[PlanOrchestrationContext]:
@@ -361,7 +361,7 @@ class PlanExecutionContextManager(ExecutionContextManager[PlanExecutionContext])
         raise_on_error: Optional[bool] = False,
         output_capture: Optional[Dict["StepOutputHandle", Any]] = None,
     ):
-        super(PlanExecutionContextManager, self).__init__(
+        super().__init__(
             execution_context_event_generator(
                 job,
                 execution_plan,

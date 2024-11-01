@@ -247,8 +247,7 @@ class SlingResource(ConfigurableResource):
     ) -> Generator[str, None, None]:
         with Popen(cmd, shell=True, stdin=stdin, stdout=stdout, stderr=stderr) as proc:
             if proc.stdout:
-                for line in self._process_stdout(proc.stdout, encoding=encoding):
-                    yield line
+                yield from self._process_stdout(proc.stdout, encoding=encoding)
 
             proc.wait()
             if proc.returncode != 0:

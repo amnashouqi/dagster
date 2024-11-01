@@ -200,7 +200,7 @@ def resolve_assets_def_deps(
                     # Arbitrarily limit to 10 similar names to avoid a huge error message
                     subset_similar_names = similar_names[:10]
                     similar_to_string = ", ".join(
-                        (similar.to_string() for similar in subset_similar_names)
+                        similar.to_string() for similar in subset_similar_names
                     )
                     msg += f" Did you mean one of the following?\n\t{similar_to_string}"
                 raise DagsterInvalidDefinitionError(msg)

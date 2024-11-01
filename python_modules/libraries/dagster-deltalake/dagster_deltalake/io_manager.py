@@ -3,7 +3,7 @@ from abc import abstractmethod
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Iterator, Optional, Sequence, Type, Union, cast
+from typing import Dict, Iterator, Optional, Sequence, Type, TypedDict, Union, cast
 
 from dagster import OutputContext
 from dagster._config.pythonic_config import ConfigurableIOManagerFactory
@@ -16,11 +16,6 @@ from dagster._core.storage.db_io_manager import (
     TableSlice,
 )
 from pydantic import Field
-
-if sys.version_info >= (3, 8):
-    from typing import TypedDict
-else:
-    from typing_extensions import TypedDict
 
 if sys.version_info >= (3, 11):
     from typing import NotRequired

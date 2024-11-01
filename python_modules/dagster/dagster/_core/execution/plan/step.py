@@ -148,7 +148,7 @@ class ExecutionStep(
         logging_tags: Optional[Mapping[str, str]] = None,
         key: Optional[str] = None,
     ):
-        return super(ExecutionStep, cls).__new__(
+        return super().__new__(
             cls,
             handle=check.inst_param(handle, "handle", (StepHandle, ResolvedFromDynamicStepHandle)),
             job_name=check.str_param(job_name, "job_name"),
@@ -245,7 +245,7 @@ class UnresolvedMappedExecutionStep(
         step_outputs: Sequence[StepOutput],
         tags: Optional[Mapping[str, str]],
     ):
-        return super(UnresolvedMappedExecutionStep, cls).__new__(
+        return super().__new__(
             cls,
             handle=check.inst_param(handle, "handle", UnresolvedStepHandle),
             job_name=check.str_param(job_name, "job_name"),
@@ -403,7 +403,7 @@ class UnresolvedCollectExecutionStep(
         step_outputs: Sequence[StepOutput],
         tags: Optional[Mapping[str, str]],
     ):
-        return super(UnresolvedCollectExecutionStep, cls).__new__(
+        return super().__new__(
             cls,
             handle=check.inst_param(handle, "handle", StepHandle),
             job_name=check.str_param(job_name, "job_name"),

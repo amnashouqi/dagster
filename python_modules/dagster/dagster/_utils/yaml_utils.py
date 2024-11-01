@@ -133,7 +133,7 @@ def merge_yaml_strings(
     for yaml_dict in yaml_dicts:
         check.invariant(
             isinstance(yaml_dict, dict),
-            'Expected YAML dictionary, instead got: "%s"' % str(yaml_dict),
+            f'Expected YAML dictionary, instead got: "{yaml_dict!s}"',
         )
 
     return functools.reduce(deep_merge_dicts, yaml_dicts, {})
@@ -143,7 +143,7 @@ def load_yaml_from_path(
     path: str, loader: Type[yaml.SafeLoader] = DagsterRunConfigYamlLoader
 ) -> object:
     check.str_param(path, "path")
-    with open(path, "r", encoding="utf8") as ff:
+    with open(path, encoding="utf8") as ff:
         return yaml.load(ff, Loader=loader)
 
 

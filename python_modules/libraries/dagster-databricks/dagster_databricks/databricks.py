@@ -4,7 +4,7 @@ import os
 import time
 from enum import Enum
 from importlib.metadata import version
-from typing import IO, Any, Mapping, Optional, Tuple
+from typing import IO, Any, Final, Mapping, Optional, Tuple
 
 import dagster
 import dagster._check as check
@@ -20,7 +20,6 @@ from databricks.sdk.core import (
     pat_auth,
 )
 from databricks.sdk.service import jobs
-from typing_extensions import Final
 
 import dagster_databricks
 from dagster_databricks.types import DatabricksRunState

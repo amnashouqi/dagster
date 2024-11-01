@@ -87,7 +87,7 @@ class ReconstructableRepository(
     ):
         from dagster._core.definitions.repository_definition import RepositoryLoadData
 
-        return super(ReconstructableRepository, cls).__new__(
+        return super().__new__(
             cls,
             pointer=check.inst_param(pointer, "pointer", CodePointer),
             container_image=check.opt_str_param(container_image, "container_image"),
@@ -233,7 +233,7 @@ class ReconstructableJob(
         asset_check_selection: Optional[AbstractSet[AssetCheckKey]] = None,
     ):
         op_selection = set(op_selection) if op_selection else None
-        return super(ReconstructableJob, cls).__new__(
+        return super().__new__(
             cls,
             repository=check.inst_param(repository, "repository", ReconstructableRepository),
             job_name=check.str_param(job_name, "job_name"),

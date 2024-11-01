@@ -1,7 +1,7 @@
 import json
 import time
 import uuid
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 from dagster._core.storage.dagster_run import RunsFilter
 from dagster._core.test_utils import wait_for_runs_to_finish
@@ -19,7 +19,6 @@ from dagster_graphql.test.utils import (
     execute_dagster_graphql_subscription,
     infer_job_selector,
 )
-from typing_extensions import Dict
 
 from dagster_graphql_tests.graphql.graphql_context_test_suite import (
     ExecutingGraphQLContextTestMatrix,

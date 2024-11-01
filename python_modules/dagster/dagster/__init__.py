@@ -630,12 +630,11 @@ from typing import (
     TYPE_CHECKING,
     Any as TypingAny,
     Callable,
+    Final,
     Mapping,
     Sequence,
     Tuple as TypingTuple,
 )
-
-from typing_extensions import Final
 
 from dagster._utils.warnings import deprecation_warning
 

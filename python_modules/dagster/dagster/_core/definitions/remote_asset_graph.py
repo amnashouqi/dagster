@@ -384,11 +384,9 @@ class RemoteWorkspaceAssetNode(RemoteAssetNode):
     def _observable_node_snap(self) -> "AssetNodeSnap":
         try:
             return next(
-                (
-                    info.asset_node.asset_node_snap
-                    for info in self.repo_scoped_asset_infos
-                    if info.asset_node.is_observable
-                )
+                info.asset_node.asset_node_snap
+                for info in self.repo_scoped_asset_infos
+                if info.asset_node.is_observable
             )
         except StopIteration:
             check.failed("No observable node found")

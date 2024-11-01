@@ -147,7 +147,7 @@ class DagsterRunStatsSnapshot(
         start_time: Optional[float],
         end_time: Optional[float],
     ):
-        return super(DagsterRunStatsSnapshot, cls).__new__(
+        return super().__new__(
             cls,
             run_id=check.str_param(run_id, "run_id"),
             steps_succeeded=check.int_param(steps_succeeded, "steps_succeeded"),
@@ -180,7 +180,7 @@ class RunOpConcurrency(
         root_key_counts: Mapping[str, int],
         has_unconstrained_root_nodes: bool,
     ):
-        return super(RunOpConcurrency, cls).__new__(
+        return super().__new__(
             cls,
             root_key_counts=check.dict_param(
                 root_key_counts, "root_key_counts", key_type=str, value_type=int
@@ -367,7 +367,7 @@ class DagsterRun(
         if run_id is None:
             run_id = make_new_run_id()
 
-        return super(DagsterRun, cls).__new__(
+        return super().__new__(
             cls,
             job_name=check.str_param(job_name, "job_name"),
             run_id=check.str_param(run_id, "run_id"),
@@ -629,7 +629,7 @@ class RunRecord(
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
     ):
-        return super(RunRecord, cls).__new__(
+        return super().__new__(
             cls,
             storage_id=check.int_param(storage_id, "storage_id"),
             dagster_run=check.inst_param(dagster_run, "dagster_run", DagsterRun),
@@ -676,7 +676,7 @@ class RunPartitionData(
         start_time: Optional[float],
         end_time: Optional[float],
     ):
-        return super(RunPartitionData, cls).__new__(
+        return super().__new__(
             cls,
             run_id=check.str_param(run_id, "run_id"),
             partition=check.str_param(partition, "partition"),
@@ -709,7 +709,7 @@ class ExecutionSelector(
     """Kept here to maintain loading of PipelineRuns from when it was still alive."""
 
     def __new__(cls, name: str, solid_subset: Optional[Sequence[str]] = None):
-        return super(ExecutionSelector, cls).__new__(
+        return super().__new__(
             cls,
             name=check.str_param(name, "name"),
             solid_subset=(

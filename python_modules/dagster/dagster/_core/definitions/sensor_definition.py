@@ -1212,7 +1212,7 @@ class SensorExecutionData(
         check.invariant(
             not (run_requests and skip_message), "Found both skip data and run request data"
         )
-        return super(SensorExecutionData, cls).__new__(
+        return super().__new__(
             cls,
             run_requests=run_requests,
             skip_message=skip_message,
