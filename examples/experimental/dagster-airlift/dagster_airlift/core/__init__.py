@@ -1,5 +1,5 @@
 from .airflow_defs_data import AirflowDefinitionsData as AirflowDefinitionsData
-from .basic_auth import BasicAuthBackend as BasicAuthBackend
+from .basic_auth import AirflowBasicAuthBackend as AirflowBasicAuthBackend
 from .load_defs import (
     AirflowInstance as AirflowInstance,
     build_airflow_mapped_defs as build_airflow_mapped_defs,
