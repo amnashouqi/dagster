@@ -7,6 +7,7 @@ from dagster._core.definitions.antlr_asset_selection.AssetSelectionParser import
 from dagster._core.definitions.antlr_asset_selection.AssetSelectionVisitor import (
     AssetSelectionVisitor,
 )
+from dagster._core.definitions.asset_selection import AssetSelection
 
 
 class AntlrAssetSelection:
@@ -23,5 +24,5 @@ class AntlrAssetSelection:
     def tree_str(self) -> str:
         return self._tree_str
 
-    # def assets(self) -> AssetSelection:
-    #     return AntlrAssetSelection._visitor.visit(self._tree)
+    def assets(self) -> AssetSelection:
+        return AntlrAssetSelection._visitor.visit(self._tree)
