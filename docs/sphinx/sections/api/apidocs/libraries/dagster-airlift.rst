@@ -18,6 +18,11 @@ AirflowInstance
 
 .. currentmodule:: dagster_airlift.mwaa
 
+Assets & Definitions
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: build_defs_from_airflow_instance
+
 MWAA (dagster_airlift.mwaa)
 ---------------------------
 
