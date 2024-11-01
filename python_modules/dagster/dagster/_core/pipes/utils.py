@@ -18,7 +18,7 @@ from dagster_pipes import (
     PipesDefaultMessageWriter,
     PipesExtras,
     PipesOpenedData,
-    PipesOutErrLogWriter,
+    PipesOutErrFileLogWriter,
     PipesParams,
 )
 
@@ -176,7 +176,7 @@ class PipesFileMessageReader(PipesMessageReader):
                     next(tempfile._get_candidate_names()),  # type: ignore  # noqa: SLF001
                 )
                 params[DAGSTER_PIPES_LOG_WRITER_KEY] = {
-                    PipesOutErrLogWriter.LOGS_DIR_KEY: log_writer_dir
+                    PipesOutErrFileLogWriter.LOGS_DIR_KEY: log_writer_dir
                 }
 
             yield params

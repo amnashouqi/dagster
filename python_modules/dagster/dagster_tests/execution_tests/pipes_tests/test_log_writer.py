@@ -12,7 +12,7 @@ _PYTHON_EXECUTABLE = shutil.which("python")
 
 
 @pytest.fixture
-def external_script() -> Iterator[str]:
+def external_script_file_log_writer() -> Iterator[str]:
     # This is called in an external process and so cannot access outer scope
     def script_fn():
         import os
@@ -20,18 +20,18 @@ def external_script() -> Iterator[str]:
 
         from dagster_pipes import (
             DAGSTER_PIPES_LOG_WRITER_KEY,
-            PipesDefaultLogWriter,
             PipesEnvVarParamsLoader,
+            PipesOutErrFileLogWriter,
             open_dagster_pipes,
         )
 
-        with open_dagster_pipes(log_writer=PipesDefaultLogWriter()):
+        with open_dagster_pipes(log_writer=PipesOutErrFileLogWriter()):
             print("Writing this to stdout")  # noqa: T201
             print("And this to stderr", file=sys.stderr)  # noqa: T201
 
             logs_dir = PipesEnvVarParamsLoader().load_messages_params()[
                 DAGSTER_PIPES_LOG_WRITER_KEY
-            ][PipesDefaultLogWriter.LOGS_DIR_KEY]
+            ][PipesOutErrFileLogWriter.LOGS_DIR_KEY]
 
         assert set(os.listdir(logs_dir)) == {"stderr", "stdout"}
 
@@ -49,16 +49,16 @@ def external_script() -> Iterator[str]:
 
 # in this test we do not check log reading logic in Dagster
 # only that the log writer is correctly configured and launched in the remote process
-def test_pipes_log_writer_on_remote_process_side(
+def test_pipes_file_log_writer(
     capsys,
     tmpdir,
-    external_script,
+    external_script_file_log_writer,
 ):
     message_reader = PipesTempFileMessageReader(enable_log_writer=True)
 
     @asset
     def foo(context: AssetExecutionContext, ext: PipesSubprocessClient):
-        cmd = [_PYTHON_EXECUTABLE, external_script]
+        cmd = [_PYTHON_EXECUTABLE, external_script_file_log_writer]
         return ext.run(
             command=cmd,
             context=context,

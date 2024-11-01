@@ -1,4 +1,5 @@
 import os
+import sys
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -247,6 +248,13 @@ class PipesMessageHandler:
         self._context.log.log(level, message)
 
     def _handle_extra_message(self, payload: Any):
+        # This should probably be handled in dedicated message type handlers
+        if isinstance(payload, dict) and (stream := payload.get("stream")) in ["stdout", "stderr"]:
+            if stream == "stdout":
+                sys.stdout.write(payload["text"])
+            elif stream == "stderr":
+                sys.stderr.write(payload["text"])
+            return
         self._extra_msg_queue.put(payload)
 
     def report_pipes_framework_exception(self, origin: str, exc_info: ExceptionInfo):

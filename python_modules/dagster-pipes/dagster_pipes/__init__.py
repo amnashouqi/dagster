@@ -727,8 +727,6 @@ class PipesOutErrLogWriter(
 ):  # log writers can potentially capture other type sof logs (for example, from Spark workers)
     """Log writes which collect stdout and stderr of the current process should inherit from this class."""
 
-    LOGS_DIR_KEY = "logs_dir"
-
     @contextmanager
     def open(self, params: PipesParams) -> Iterator:
         is_session_closed = threading.Event()
@@ -845,7 +843,7 @@ class PipesOutErrLogWriterChannel(PipesLogWriterChannel):
         pass
 
 
-class PipesDefaultLogWriterChannel(PipesOutErrLogWriterChannel):
+class PipesOutErrFileLogWriterChannel(PipesOutErrLogWriterChannel):
     """A log writer channel that writes stdout or stderr to a given file."""
 
     def __init__(
@@ -861,8 +859,10 @@ class PipesDefaultLogWriterChannel(PipesOutErrLogWriterChannel):
             file.write(chunk + "\n")
 
 
-class PipesDefaultLogWriter(PipesOutErrLogWriter):
+class PipesOutErrFileLogWriter(PipesOutErrLogWriter):
     """A log writer that writes stdout and stderr to "stdout" and "stderr" files in a given directory."""
+
+    LOGS_DIR_KEY = "logs_dir"
 
     def __init__(self, interval: float = 1):
         self.interval = interval
@@ -871,16 +871,75 @@ class PipesDefaultLogWriter(PipesOutErrLogWriter):
 
     def make_channel(
         self, params: PipesParams, stream: Literal["stdout", "stderr"]
-    ) -> "PipesDefaultLogWriterChannel":
+    ) -> "PipesOutErrFileLogWriterChannel":
         # TODO: maybe instead log to current directory by default
         # and report the path in launched payload
         logs_dir = params[self.LOGS_DIR_KEY]
         os.makedirs(logs_dir, exist_ok=True)
         output_path = os.path.join(os.path.join(logs_dir), stream)
-        return PipesDefaultLogWriterChannel(
+        return PipesOutErrFileLogWriterChannel(
             output_path=output_path,
             stream=stream,
-            name=f"PipesFileLogWriterChannel({stream}->{output_path})",
+            name=f"PipesDefaultLogWriterChannel({stream})",
+            interval=self.interval,
+        )
+
+
+class PipesDefaultLogWriterChannel(PipesOutErrLogWriterChannel):
+    """A log writer channel that writes stdout or stderr via the message writer channel."""
+
+    def __init__(
+        self,
+        message_channel: PipesMessageWriterChannel,
+        stream: Literal["stdout", "stderr"],
+        name: str,
+        interval: float,
+    ):
+        self.message_channel = message_channel
+
+        super().__init__(interval=interval, stream=stream, name=name)
+
+    def write_chunk(self, chunk: str) -> None:
+        # write the chunk to a file
+        self.message_channel.write_message(
+            _make_message(
+                method="report_custom_message",  # maybe this needs new method types for stderr and stdout?
+                params={
+                    "stream": self.stream,
+                    "text": chunk,
+                },
+            )
+        )
+
+
+class PipesDefaultLogWriter(PipesOutErrLogWriter):
+    """A log writer that writes stdout and stderr via the message writer channel."""
+
+    def __init__(self, interval: float = 1):
+        self.interval = interval
+
+        self._message_channel = None
+
+        super().__init__()
+
+    @property
+    def message_channel(self) -> PipesMessageWriterChannel:
+        if self._message_channel is None:
+            raise RuntimeError("message_channel is not set")
+        else:
+            return self._message_channel
+
+    @message_channel.setter
+    def message_channel(self, message_channel: PipesMessageWriterChannel):
+        self._message_channel = message_channel
+
+    def make_channel(
+        self, params: PipesParams, stream: Literal["stdout", "stderr"]
+    ) -> "PipesDefaultLogWriterChannel":
+        return PipesDefaultLogWriterChannel(
+            message_channel=self.message_channel,
+            stream=stream,
+            name=f"PipesDefaultLogWriterChannel({stream})",
             interval=self.interval,
         )
 
@@ -1300,11 +1359,16 @@ class PipesContext:
         self._data = self._io_stack.enter_context(context_loader.load_context(context_params))
         self._message_channel = self._io_stack.enter_context(message_writer.open(messages_params))
         opened_payload = message_writer.get_opened_payload()
+        self._message_channel.write_message(_make_message("opened", opened_payload))
+
         if log_writer is not None:
+            if isinstance(log_writer, PipesDefaultLogWriter):
+                log_writer.message_channel = self._message_channel
+
             log_writer_params = messages_params.get(DAGSTER_PIPES_LOG_WRITER_KEY, {})
             self._io_stack.enter_context(log_writer.open(log_writer_params))
             opened_payload[DAGSTER_PIPES_LOG_WRITER_KEY] = log_writer.get_opened_payload()
-        self._message_channel.write_message(_make_message("opened", opened_payload))
+
         self._logger = _PipesLogger(self)
         self._materialized_assets: Set[str] = set()
         self._closed: bool = False
