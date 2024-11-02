@@ -4,7 +4,6 @@ on:
     types: [opened, synchronize, reopened, closed]
 
 concurrency:
-  # Cancel in-progress deploys to same branch
   group: ${{ github.ref }}/branch_deployments
   cancel-in-progress: true
 env:
